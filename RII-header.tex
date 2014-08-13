@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb,amsfonts,textcomp}
+\usepackage{color}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{xkeyval}
+\usepackage[pdftex]{graphicx}
+\usepackage{appendix}
+\usepackage{listings}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{lstbackground}{rgb}{0.90,0.90,0.90}
+\lstset{frame=tb,
+	backgroundcolor=\color{lstbackground},
+  language=Bash,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+
+
+
+\usepackage{verbatim}
+\begin{comment}
+	\hypersetup{
+		pdftex, 
+		colorlinks=true, 
+		linkcolor=blue, 
+		citecolor=blue, 
+		filecolor=blue, 
+		urlcolor=blue, 
+	pdftitle={Software Libre}, 
+	pdfauthor={Eduardo Grosclaude}, 
+	pdfsubject={Documento de la materia Software Libre}, 
+	pdfkeywords={Software Libre, Tecnicatura en Administración de Sistemas y 		Software Libre, Universidad Nacional del Comahue}
+	}
+\end{comment}	
+
+%\addto\captionsspanish {%
+%	\def\appendixname{Apéndices}
+%}
+% Outline numbering
+\setcounter{secnumdepth}{1}
+% Reset section numbering between parts
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother  
+% List styles
+\newcommand\liststyleLi{%
+\renewcommand\labelitemi{\tiny${\blacksquare}$}
+\renewcommand\labelitemii{\tiny${\square}$}
+\renewcommand\labelitemiii{\tiny${\circ}$}
+\renewcommand\labelitemiv{\tiny${\circ}$}
+}
+\newcommand\liststyleLii{%
+\renewcommand\labelitemi{{\textbullet}}
+\renewcommand\labelitemii{${\circ}$}
+\renewcommand\labelitemiii{${\blacksquare}$}
+\renewcommand\labelitemiv{{\textbullet}}
+}
+\newcommand\liststyleLiii{%
+\renewcommand\labelitemi{{\textbullet}}
+\renewcommand\labelitemii{${\circ}$}
+\renewcommand\labelitemiii{${\blacksquare}$}
+\renewcommand\labelitemiv{{\textbullet}}
+}
+
+\liststyleLi
+
+% Page layout (geometry)
+\setlength\voffset{-1in}
+\setlength\hoffset{-1in}
+\setlength\topmargin{2cm}
+\setlength\oddsidemargin{2cm}
+\setlength\textheight{23.246668cm}
+\setlength\textwidth{17.006cm}
+\setlength\footskip{26.144882pt}
+\setlength\headheight{1.016cm}
+\setlength\headsep{0.508cm}
+% Footnote rule
+\setlength{\skip\footins}{0.119cm}
+\renewcommand\footnoterule{\vspace*{-0.018cm}\setlength\leftskip{0pt}\setlength\rightskip{0pt plus 1fil}\noindent\textcolor{black}{\rule{0.25\columnwidth}{0.018cm}}\vspace*{0.101cm}}
+% Pages styles
+\makeatletter
+\newcommand\ps@Standard{
+  \renewcommand\@oddhead{{\raggedleft Cabecera \ } {\raggedright \thepage{}}}
+  \renewcommand\@evenhead{\@oddhead}
+  \renewcommand\@oddfoot{}
+  \renewcommand\@evenfoot{\@oddfoot}
+  \renewcommand\thepage{\arabic{page}}
+}
+\makeatother
+% \pagestyle{Standard}
+\usepackage{fancyhdr}
+\usepackage{sans}
+
+% \renewcommand*\familydefault{\sfdefault}
+\pagestyle{fancy}
+% footnotes configuration
+\makeatletter
+\renewcommand\thefootnote{\arabic{footnote}}
+\makeatother
+\title{Redes II}
+\author{Eduardo Grosclaude}
+\date{2014-08-13}
+\usepackage{graphicx}
+
+\usepackage{xkeyval}
+\usepackage{pifont}
+\usepackage{xcolor}
+\newcommand{\revisar}[1]{{\color{red}[#1]}}
+%\newcommand{\nota}[1]{{\color{red}[#1]}}
+%\newcommand{\revisar}[1]{}
+\newcommand{\nota}[1]{}
+
+\newcommand{\nonota}[1]{#1}
+
+\newcommand{\quotes}[1]{``#1''}
+
+   
+\newcommand{\shade}[1]{\textcolor{black!50}{#1}}
+
+% ancho opcional, por defecto 15cm
+% \figura{copyleft}{Símbolo de Copyleft}{copyleft.png}
+% \figura[6]{copyleft}{Símbolo de Copyleft}{copyleft.png}
+\newcommand{\figura}[4][15]{
+ \begin{figure}[htbp] 
+ \centering 
+ \includegraphics[width=#1cm]{./img/#4} 
+ \caption{#3} 
+ \label{fig:#2} 
+ \end{figure} 
+}
+
+
+
+

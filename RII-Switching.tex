@@ -1,0 +1,80 @@
+
+
+
+\section{Ethernet}
+\begin{enumerate}
+\item ¿Qué módulos del kernel Linux están controlando las interfaces de red de su equipo? ¿Cuáles comandos permiten conocer las marcas y modelos de las placas instaladas? ¿Qué diferencia hay entre placas y chipsets? ¿Cómo se puede investigar cuál módulo corresponde a cuál marca y modelo de placa de red? 
+\item ¿Qué es el bus PCI y qué son los números de dispositivos asignados? ¿Cuál es la relación entre el bus PCI y los nombres de dispositivos de red en Linux?
+\item ¿Qué información aporta el comando ethtool? ¿Qué clases de placas de red soporta? ¿Qué significa \quotes{Link detected} en la salida de este comando?
+\item ¿Qué información transporta un frame Ethernet? ¿Qué diferencias existen entre los frames que circulan por una Ethernet cableada y una inalámbrica? 
+\item ¿Qué diferencias existen entre el diseño de la red Ethernet original, implementada con coaxil, y la que está implementada con cableado en estrella, conectada mediante hubs? ¿Qué diferencias existen entre esta última y una implementada con switches?
+\end{enumerate}
+
+\section{Dominios de colisión y de broadcast}
+\label{sub:}
+\begin{enumerate}
+\item ¿Qué es un bridge, qué configuración lleva, qué función realiza sobre los frames que circulan por la red, y cómo aprende su información de trabajo? 
+\item ¿Existen bridges inalámbricos? 
+\item ¿A qué se llama segmentación?
+\item ¿Un hub es equivalente a un bridge? ¿Un router es equivalente a un bridge? ¿Un switch es equivalente a un bridge? 
+\item ¿Qué es un frame de broadcast? ¿Qué es un frame unicast? ¿Cómo se distingue un frame de broadcast? 
+\item ¿Qué protocolos utilizan frames de broadcast? ¿Cómo es aprovechado el mecanismo de broadcast por el protocolo ARP? ¿Qué otros usos podría recibir el mecanismo de broadcast?
+\item ¿Qué conducta observan los hosts de la red al recibir un frame de broadcast? ¿En qué casos puede resultar esto un problema y por qué? ¿Cuáles son las contramedidas?
+\item ¿Qué es un dominio de colisión?  ¿Qué es un dominio de broadcast? ¿Qué tipo de dispositivo es el que delimita la frontera entre dos dominios de colisión?  ¿Qué tipo de dispositivo es el que delimita la frontera entre dos dominios de broadcast? 
+\item ¿Qué efecto tiene la introducción de un bridge en un dominio de colisión? El número de equipos en un mismo dominio de colisión ¿se incrementa o se reduce? ¿Qué efecto tiene esto sobre la probabilidad de colisión?
+\item ¿Qué diferencia hay entre un paquete de broadcast y un frame de broadcast? Los routers, ¿repiten los frames de broadcasts?
+\item En la figura \ref{fig:broadcast}, ¿cuáles son los dominios de colisión y de broadcast que pueden distinguirse? Si el host H1 emite un frame de broadcast, ¿qué otros hosts lo reciben? Si el host H4 emite un broadcast, ¿qué otros hosts lo reciben?
+\item En la figura \ref{fig:arbol}, ¿cuáles son los dominios de colisión y de broadcast que pueden distinguirse? Si el host H1 emite un frame de broadcast, ¿qué otros hosts lo reciben? 
+\item El concepto de dominio de colisión, ¿sigue siendo aplicable en la actualidad, cuando prácticamente la totalidad de las redes usan bridging en lugar de repetidores? 
+\item El uso de bridges, ¿limita el tráfico de broadcast sobre un segmento de red? 
+\figura{broadcast}{Colisiones y broadcasts}{broadcast.jpg}
+\end{enumerate}
+% subsection  (end) Dominios de colisión y de broadcast
+
+
+\section{Switches}
+\label{sub:Switches}
+
+\begin{enumerate}
+\item ¿Cuál es la función de un switch? 
+\item ¿Cuántos dominios de colisión hay en una red implementada sobre un switch? ¿Cuántos dominios de broadcast hay en una red implementada sobre un switch?
+\item ¿Existen switches inalámbricos? ¿En qué se parecen y en qué se diferencian un switch cableado y un punto de acceso inalámbrico? 
+\item ¿En qué consiste el proceso de conmutación de un frame? ¿Qué modos de conmutación son los más usados?
+\item ¿Cómo aprende su información de trabajo un switch? ¿Dónde almacena dicha información? ¿Cómo accede a esta información?
+\item ¿Qué debe hacer un switch ante un frame dirigido a una estación (\quotes{unicast}) cuya dirección destino figura en sus tablas? 
+\item ¿Qué debe hacer un switch ante un frame dirigido a una estación (\quotes{unicast}) que no figura en ninguna de sus tablas? ¿Cómo se llama esta acción?
+\item ¿Qué debe hacer un switch ante un frame cuya dirección origen no figura en sus tablas? 
+\item ¿Qué debe hacer un switch ante un frame de broadcast? ¿Cómo se llama esta acción?
+\item En una arquitectura compuesta por un árbol de tres switches como en la figura \ref{fig:arbol}, ¿cómo aprenden los switches las direcciones de los equipos que no están directamente conectados? ¿Cuántos dominios de broadcast aparecen en dicha figura?
+\item ¿En qué orden aparecen las direcciones destino y origen en el frame Ethernet? ¿En qué orden aparecen las direcciones destino y origen en los paquetes IP y en los segmentos TCP o UDP? ¿De qué forma aprovechan los switches la diferencia?
+\figura[12]{arbol}{Jerarquía de switches}{arbol.jpg}
+
+\item En la figura \ref{fig:dominios}, si el host H1 establece conexión TCP con H3, ¿quiénes más pueden ver el tráfico entre H1 y H3? Si el host H1 establece conexión TCP con H4, ¿quiénes más pueden ver el tráfico entre H1 y H4?
+\figura{dominios}{Dominios}{dominios.jpg}
+\item ¿Cuántas redes aparecen, respectivamente, en las figuras \ref{fig:broadcast}, \ref{fig:arbol} y \ref{fig:dominios}? ¿Cuántos espacios de direccionamiento IP diferentes habrá en cada una?
+\end{enumerate}
+% subsection  (end) Switches
+
+
+\section{Arquitecturas de redundancia}
+\begin{enumerate}
+\item ¿Qué ventajas aporta la redundancia de enlaces en una red LAN? ¿Qué formas de redundancia se pueden implementar? ¿En qué consiste la tolerancia a fallos?
+\item ¿Qué ocurre en una red Ethernet con múltiples caminos entre dos hosts? ¿Qué escenarios de fallo se pueden presentar?  
+\item ¿Cómo se puede detectar una tormenta de broadcasts?
+\item ¿Qué ventaja ofrece el protocolo IEEE 802.1d (STP)? ¿Cómo es su modo de operación y qué intenta construir? ¿Qué dispositivos soportan 802.1d? 
+\item ¿Cómo se elige un dispositivo raíz del árbol STP? ¿Cómo se determinan los caminos al raíz? ¿Qué demora puede tener normalmente la convergencia de STP?
+\item ¿Qué datos de configuración o estado, que sean relevantes para 802.1d, y cuya configuración por el administrador sea posible, admiten los bridges y switches? ¿En qué puede influir el administrador de redes sobre la elección del raíz? ¿Cómo se puede aprovechar este hecho?
+\item ¿En qué consiste el protocolo RSTP?
+\end{enumerate}
+% subsubsection  (end) Arquitecturas de redundancia
+
+
+
+\section{VLANs}
+\label{sub:}
+
+% subsection  (end) VLANs
+
+
+
+

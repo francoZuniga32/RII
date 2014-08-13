@@ -1,0 +1,9 @@
+version=0.6.0
+typesetter=pdflatex
+steps=texpdf
+root=/home/oso/Copy/FAI/TUASSL/RII/RII/RII.tex
+file=/home/oso/Copy/FAI/TUASSL/RII/RII/RII-asignatura.tex
+file=/home/oso/Copy/FAI/TUASSL/RII/RII/RII-header.tex
+
+file=/home/oso/Copy/FAI/TUASSL/RII/RII/RII-Switching.tex
+file=/home/oso/Copy/FAI/TUASSL/RII/RII/RII-Anexos.tex
