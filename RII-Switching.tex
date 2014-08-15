@@ -5,10 +5,11 @@
 \begin{enumerate}
 \item ¿Qué módulos del kernel Linux están controlando las interfaces de red de su equipo? ¿Cuáles comandos permiten conocer las marcas y modelos de las placas instaladas? ¿Qué diferencia hay entre placas y chipsets? ¿Cómo se puede investigar cuál módulo corresponde a cuál marca y modelo de placa de red? 
 \item ¿Qué es el bus PCI y qué son los números de dispositivos asignados? ¿Cuál es la relación entre el bus PCI y los nombres de dispositivos de red en Linux?
-\item ¿Qué información aporta el comando ethtool? ¿Qué clases de placas de red soporta? ¿Qué significa \quotes{Link detected} en la salida de este comando?
+\item ¿Qué información aporta el comando ethtool? ¿Qué clases de placas de red soporta? ¿Qué significa \emph{Link detected} en la salida de este comando?
 \item ¿Qué información transporta un frame Ethernet? ¿Qué diferencias existen entre los frames que circulan por una Ethernet cableada y una inalámbrica? 
-\item ¿Qué diferencias existen entre el diseño de la red Ethernet original, implementada con coaxil, y la que está implementada con cableado en estrella, conectada mediante hubs? ¿Qué diferencias existen entre esta última y una implementada con switches?
+\item ¿Qué diferencias existen entre el diseño de la red Ethernet original, implementada con coaxil, y la que está implementada con cableado en estrella, conectada mediante hubs? ¿Qué diferencias existen entre esta última y una implementada con switches? 
 \end{enumerate}
+
 
 \section{Dominios de colisión y de broadcast}
 \label{sub:}
@@ -26,10 +27,12 @@
 \item En la figura \ref{fig:broadcast}, ¿cuáles son los dominios de colisión y de broadcast que pueden distinguirse? Si el host H1 emite un frame de broadcast, ¿qué otros hosts lo reciben? Si el host H4 emite un broadcast, ¿qué otros hosts lo reciben?
 \item En la figura \ref{fig:arbol}, ¿cuáles son los dominios de colisión y de broadcast que pueden distinguirse? Si el host H1 emite un frame de broadcast, ¿qué otros hosts lo reciben? 
 \item El concepto de dominio de colisión, ¿sigue siendo aplicable en la actualidad, cuando prácticamente la totalidad de las redes usan bridging en lugar de repetidores? 
-\item El uso de bridges, ¿limita el tráfico de broadcast sobre un segmento de red? 
-\figura{broadcast}{Colisiones y broadcasts}{broadcast.jpg}
-\end{enumerate}
+\item El uso de bridges, ¿limita el tráfico de broadcast sobre un segmento de red?
+ \end{enumerate}
 % subsection  (end) Dominios de colisión y de broadcast
+
+
+\figura[12]{broadcast}{Colisiones y broadcasts}{broadcast.jpg}
 
 
 \section{Switches}
@@ -38,22 +41,39 @@
 \begin{enumerate}
 \item ¿Cuál es la función de un switch? 
 \item ¿Cuántos dominios de colisión hay en una red implementada sobre un switch? ¿Cuántos dominios de broadcast hay en una red implementada sobre un switch?
-\item ¿Existen switches inalámbricos? ¿En qué se parecen y en qué se diferencian un switch cableado y un punto de acceso inalámbrico? 
 \item ¿En qué consiste el proceso de conmutación de un frame? ¿Qué modos de conmutación son los más usados?
 \item ¿Cómo aprende su información de trabajo un switch? ¿Dónde almacena dicha información? ¿Cómo accede a esta información?
 \item ¿Qué debe hacer un switch ante un frame dirigido a una estación (\quotes{unicast}) cuya dirección destino figura en sus tablas? 
 \item ¿Qué debe hacer un switch ante un frame dirigido a una estación (\quotes{unicast}) que no figura en ninguna de sus tablas? ¿Cómo se llama esta acción?
 \item ¿Qué debe hacer un switch ante un frame cuya dirección origen no figura en sus tablas? 
 \item ¿Qué debe hacer un switch ante un frame de broadcast? ¿Cómo se llama esta acción?
-\item En una arquitectura compuesta por un árbol de tres switches como en la figura \ref{fig:arbol}, ¿cómo aprenden los switches las direcciones de los equipos que no están directamente conectados? ¿Cuántos dominios de broadcast aparecen en dicha figura?
+\item En una topología compuesta por un árbol de tres switches como en la figura \ref{fig:arbol}, ¿cómo aprenden los switches las direcciones de los equipos que no están directamente conectados? ¿Cuántos dominios de broadcast aparecen en dicha figura?
 \item ¿En qué orden aparecen las direcciones destino y origen en el frame Ethernet? ¿En qué orden aparecen las direcciones destino y origen en los paquetes IP y en los segmentos TCP o UDP? ¿De qué forma aprovechan los switches la diferencia?
-\figura[12]{arbol}{Jerarquía de switches}{arbol.jpg}
 
 \item En la figura \ref{fig:dominios}, si el host H1 establece conexión TCP con H3, ¿quiénes más pueden ver el tráfico entre H1 y H3? Si el host H1 establece conexión TCP con H4, ¿quiénes más pueden ver el tráfico entre H1 y H4?
-\figura{dominios}{Dominios}{dominios.jpg}
-\item ¿Cuántas redes aparecen, respectivamente, en las figuras \ref{fig:broadcast}, \ref{fig:arbol} y \ref{fig:dominios}? ¿Cuántos espacios de direccionamiento IP diferentes habrá en cada una?
+
+\item ¿Cuántas redes aparecen, respectivamente, en las topologías de figuras \ref{fig:broadcast}, \ref{fig:arbol} y \ref{fig:dominios}? ¿Cuántos espacios de direccionamiento IP diferentes habrá en cada topología?
+
+\item ¿Existen switches inalámbricos? ¿En qué se parecen y en qué se diferencian un switch cableado y un punto de acceso inalámbrico? 
+\item ¿Qué diferencias existen entre las conexiones de switches en cascada y apiladas (\emph{stacked})? 
+\item ¿Qué velocidad suelen tener los ports de un switch? ¿Qué dicen las normas de cableado respecto de la calidad del cable, su longitud y su forma de instalación, para cada caso?
+\item Si los ports de un switch tienen una velocidad determinada, ¿tiene sentido conectar a un port un conjunto de hosts capaces de transmitir, en forma agregada, mayor cantidad de bits por segundo que la velocidad admitida por el port? ¿Qué significa \emph{oversubscription}?
+\item En una red compartida implementada con hubs, ¿cuál es el ancho de banda obtenido por cada cliente? ¿Y en una red implementada con switches?
+
+\item En la Fig. \ref{fig:velocidades}, supongamos que los hosts H1 y H3 mantienen tráfico entre sí al mismo tiempo que H2 y H4 lo hacen entre sí. ¿Cuál será la velocidad máxima de dicho tráfico si el dispositivo es un hub que funciona a 100Mbps? ¿Y si es un switch que funciona a 100Mbps? 
+
+\item En aquellos switches con ports de diferentes velocidades, ¿cuáles podrían ser los usos de los ports de mayor velocidad?
+\item ¿Qué son los dispositivos de red administrables? ¿En qué consiste el protocolo SNMP? ¿Qué características operativas de un switch administrable pueden consultarse o modificarse mediante SNMP? 
+\item ¿Qué características administrables de un switch tienen que ver con la gestión de seguridad en redes?
 \end{enumerate}
 % subsection  (end) Switches
+\figura[8]{velocidades}{Competencia por el medio}{velocidades.jpg}
+
+
+
+\figura[10]{arbol}{Jerarquía de switches}{arbol.jpg}
+
+\figura[12]{dominios}{Dominios}{dominios.jpg}
 
 
 \section{Arquitecturas de redundancia}
@@ -72,6 +92,43 @@
 
 \section{VLANs}
 \label{sub:}
+Un diseño clásico de redes de campus consiste en un router que proyecta segmentos de LAN como radios de una estrella (Fig. \ref{fig:bbcolap}). La función de comunicar los radios, que anteriormente era cumplida por el backbone de la red, en este diseño se logra por la conmutación efectuada por el router, por lo cual suele llamarse de backbone colapsado. 
+
+Con este diseño, los dominios de broadcast, y por lo tanto los espacios IP definidos sobre ellos, quedan limitados geográficamente. Si en una zona del campus donde llega un radio de la estrella se necesita ubicar nodos sobre dos dominios de broadcast (porque se desea aislarlos por motivos de seguridad, porque se desea situar equipos sobre dos espacios IP diferentes, o porque se desea limitar la competencia de ambas clases de tráfico por el medio), debe haber dos cableados y deben ocuparse dos bocas del router central. 
+
+\figura[8]{bbcolap}{Backbone colapsado}{backbone-colapsado.jpg}
+
+Con la funcionalidad avanzada de VLANs provista por algunos switches (y definida en el estándar IEEE 802.1Q), el mismo cableado, y el sistema de switches de llegada, puede usarse para conducir dos o más dominios de broadcast. 
+ 
+\begin{itemize}
+
+
+	\item ¿En qué consiste el diseño de red de campus de backbone colapsado? ¿Qué impacto tiene este diseño sobre la posibilidad de distribuir equipos de diferentes clases sobre una misma región de la red?
+	\item 
+¿Cuál es la finalidad de definir VLANs en un switch? 
+
+	\item 
+¿Cómo se modifica el formato de frame Ethernet para lograr la capacidad de separar los dominios de broadcast al definir VLANs?
+
+	\item ¿Qué debe hacer un switch con VLANs definidas al recibir un frame de broadcast sobre una de sus interfaces? ¿Qué debe hacer con un frame unicast?
+
+	\item En la topología de la figura \ref{fig:vlans}, los tres switches tienen definidas dos VLANs. Los hosts H1, H2 y H4 pertenecen a la VLAN 1, y los hosts H3, H5 y H6 a la VLAN 2. 
+
+	\begin{itemize}
+		\item ¿Qué deben hacer los switches con un frame de broadcast recibido desde el host H2?
+		\item ¿Qué deben hacer los switches con un frame unicast recibido desde el host H5 y dirigido a H6? ¿Lo mismo, pero desde H5 a H3? ¿Qué diferencia en el formato de los frames existe entre un caso y otro, en cada punto del camino?
+		\item ¿Qué condición deben cumplir los ports que interconectan los switches entre sí para poder distribuir las VLANs por toda la topología?
+		\item ¿Es posible que una aplicación en el host H5 inicie conexión TCP/IP con una aplicación servidora situada en H2? 
+	\end{itemize} 
+
+\item ¿Qué elemento externo es necesario para conectar diferentes VLANs en una misma jerarquía de switches? 
+
+\item ¿Qué son los switches multicapa o \emph{multilayer}? 
+
+\end{itemize} 
+
+\figura[12]{vlans}{VLANs}{vlans.jpg}
+
 
 % subsection  (end) VLANs
 
