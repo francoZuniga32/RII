@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{xkeyval}
 \usepackage[pdftex]{graphicx}
+\usepackage[yyyymmdd,hhmmss]{datetime}
 \usepackage{appendix}
 \usepackage{listings}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -127,6 +128,16 @@
 \usepackage{pifont}
 \usepackage{xcolor}
 \newcommand{\revisar}[1]{{\color{red}[#1]}}
+
+
+
+%\usepackage[hundred]{vrsion}
+
+\newcommand{\borrador}{
+\revisar{\today, \currenttime  -  Material en preparación, se ruega no imprimir mientras aparezca esta nota}
+}
+
+
 %\newcommand{\nota}[1]{{\color{red}[#1]}}
 %\newcommand{\revisar}[1]{}
 \newcommand{\nota}[1]{}
