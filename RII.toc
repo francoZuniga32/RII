@@ -1,0 +1,74 @@
+\select@language {spanish}
+\contentsline {part}{I\hspace {1em}La asignatura}{6}{part.1}
+\contentsline {section}{\numberline {1}Objetivos}{6}{section.1.1}
+\contentsline {subsection}{De la carrera}{6}{section*.2}
+\contentsline {subsection}{De la asignatura}{6}{section*.3}
+\contentsline {section}{\numberline {2}Cursado}{6}{section.1.2}
+\contentsline {section}{\numberline {3}Contenidos}{6}{section.1.3}
+\contentsline {subsection}{Contenidos m\IeC {\'\i }nimos}{6}{section*.4}
+\contentsline {subsection}{Programa}{6}{section*.5}
+\contentsline {section}{\numberline {4}Bibliograf\IeC {\'\i }a inicial}{7}{section.1.4}
+\contentsline {section}{\numberline {5}Cronograma}{7}{section.1.5}
+\contentsline {part}{II\hspace {1em}Switching}{8}{part.2}
+\contentsline {section}{\numberline {1}Ethernet}{8}{section.2.1}
+\contentsline {subsection}{Dominios de colisi\IeC {\'o}n y de broadcast}{8}{section*.6}
+\contentsline {subsection}{Switches}{9}{section*.7}
+\contentsline {subsection}{Arquitecturas de redundancia}{11}{section*.8}
+\contentsline {section}{\numberline {2}VLANs}{11}{section.2.2}
+\contentsline {section}{\numberline {3}Estudio de caso I}{13}{section.2.3}
+\contentsline {part}{III\hspace {1em}Redes Privadas Virtuales}{15}{part.3}
+\contentsline {section}{\numberline {1}Elementos de las VPN}{15}{section.3.1}
+\contentsline {subsection}{Motivaci\IeC {\'o}n de las VPN}{15}{section*.9}
+\contentsline {subsection}{Modelos de VPN}{15}{section*.10}
+\contentsline {subsection}{Niveles de implementaci\IeC {\'o}n}{15}{section*.11}
+\contentsline {subsection}{Algunas tecnolog\IeC {\'\i }as}{15}{section*.12}
+\contentsline {section}{\numberline {2}OpenVPN}{17}{section.3.2}
+\contentsline {subsection}{Soporte necesario para OpenVPN}{17}{section*.13}
+\contentsline {subsection}{Funcionamiento de OpenVPN en capa 2}{17}{section*.14}
+\contentsline {subsection}{Funcionamiento de OpenVPN en capa 3}{18}{section*.15}
+\contentsline {section}{\numberline {3}Configuraci\IeC {\'o}n de OpenVPN}{18}{section.3.3}
+\contentsline {subsection}{Autenticaci\IeC {\'o}n mediante clave privada}{18}{section*.16}
+\contentsline {subsection}{Crear una Autoridad de Certificaci\IeC {\'o}n}{20}{section*.17}
+\contentsline {subsection}{Documentaci\IeC {\'o}n online}{20}{section*.18}
+\contentsline {subsection}{Vinculaci\IeC {\'o}n de LANs mediante Openvpn}{21}{section*.19}
+\contentsline {subsubsection}{OpenVPN de nivel de Red}{21}{section*.20}
+\contentsline {subsubsection}{OpenVPN de nivel de Enlace}{21}{section*.21}
+\contentsline {section}{\numberline {4}Temas de pr\IeC {\'a}ctica}{22}{section.3.4}
+\contentsline {part}{IV\hspace {1em}Balance de carga y Alta Disponibilidad en redes}{24}{part.4}
+\contentsline {section}{\numberline {1}Bonding}{24}{section.4.1}
+\contentsline {subsection}{Detecci\IeC {\'o}n de eventos}{24}{section*.22}
+\contentsline {subsection}{Configuraci\IeC {\'o}n en Debian}{25}{section*.23}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n con MII}{25}{section*.24}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n con ARP}{25}{section*.25}
+\contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{26}{section*.26}
+\contentsline {subsubsection}{Notas sobre el laboratorio}{26}{section*.27}
+\contentsline {subsection}{Referencias}{28}{section*.28}
+\contentsline {section}{\numberline {2}Balance de Carga}{28}{section.4.2}
+\contentsline {subsection}{Herramientas}{28}{section*.29}
+\contentsline {subsubsection}{Paquete iproute2}{28}{section*.30}
+\contentsline {subsubsection}{Comando iptables}{28}{section*.31}
+\contentsline {subsection}{Ruteo por pol\IeC {\'\i }ticas}{29}{section*.32}
+\contentsline {subsection}{Definici\IeC {\'o}n de pol\IeC {\'\i }ticas}{31}{section*.33}
+\contentsline {subsubsection}{Pol\IeC {\'\i }tica seg\IeC {\'u}n el origen}{31}{section*.34}
+\contentsline {subsubsection}{Pol\IeC {\'\i }tica seg\IeC {\'u}n el tr\IeC {\'a}fico}{32}{section*.35}
+\contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{32}{section*.36}
+\contentsline {subsubsection}{Laboratorio virtual de Split Access}{32}{section*.37}
+\contentsline {subsubsection}{Notas del laboratorio}{33}{section*.38}
+\contentsline {part}{V\hspace {1em}Anexos}{34}{part.5}
+\contentsline {section}{\numberline {A}VLANs en Linux}{34}{appendix.Alph1}
+\contentsline {subsection}{Creaci\IeC {\'o}n de VLAN}{34}{section*.39}
+\contentsline {subsection}{Consultar el VLAN ID de una interfaz}{34}{section*.40}
+\contentsline {subsection}{Dar una direcci\IeC {\'o}n IP}{34}{section*.41}
+\contentsline {subsection}{Desactivar administrativamente una interfaz}{34}{section*.42}
+\contentsline {subsection}{Eliminar una interfaz}{34}{section*.43}
+\contentsline {section}{\numberline {B}Bridging en Linux}{34}{appendix.Alph2}
+\contentsline {subsection}{Interfaz para creaci\IeC {\'o}n e inspecci\IeC {\'o}n de bridges}{34}{section*.44}
+\contentsline {subsection}{Configuraci\IeC {\'o}n est\IeC {\'a}tica de bridges}{35}{section*.45}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en RedHat, CentOS, derivados}{35}{section*.46}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en Debian, Ubuntu, derivados}{35}{section*.47}
+\contentsline {section}{\numberline {C}Ejemplos de configuraci\IeC {\'o}n OpenVPN}{35}{appendix.Alph3}
+\contentsline {subsection}{Servidor}{35}{section*.48}
+\contentsline {subsection}{Cliente}{41}{section*.49}
+\contentsline {section}{\numberline {D}Scripts para OpenVPN en modo bridge}{43}{appendix.Alph4}
+\contentsline {subsection}{Archivo sample-scripts/bridge-start}{43}{section*.50}
+\contentsline {subsection}{Archivo sample-scripts/bridge-stop}{44}{section*.51}

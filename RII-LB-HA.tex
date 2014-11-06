@@ -1,0 +1,185 @@
+\section{Bonding}
+
+
+Acoplamiento de dos o más interfaces de red, creando una interfaz virtual capaz de funcionar en diferentes modos. Se conoce con diferentes nombres (\textit{channel bonding, teaming, link aggregation}). 
+Los modos de configuración de bonding definen el comportamiento del conjunto de interfaces y cumplen con diferentes objetivos. Algunos modos proporcionan tolerancia a fallos mediante redundancia; otros aumentan el ancho de banda disponible por agregación de enlaces.
+
+Los modos active-backup, balance-tlb, y balance-alb no requieren una configuración especial en los switches a los cuales está conectado el bond.
+Sin embargo, los modos 802.3ad, balance-rr, balance-xor y broadcast requieren capacidades especiales del switch definidas en documentos IEEE.
+
+
+\begin{description}
+\item [Modo 0 (balance-rr)]
+Este modo transmite frames en orden secuencial desde el primer esclavo disponible hasta el último. Si un bond tiene dos interfaces reales, y llegan simultáneamente dos frames a ser enviados desde la interfaz bond, el primero será transmitido por el primer esclavo; el segundo frame, por el segundo esclavo; el tercer frame será transmitido por el primer esclavo, etc. Esto provee a la vez balance de carga y tolerancia a fallos. 
+
+\item [Modo 1 (active-backup)]
+Este modo coloca a las interfaces esclavas en estado de backup, y sólo se activará una de ellas si se pierde el link de la interfaz activa. En este modo, sólo hay un esclavo activo en el bond en cada momento. Sólo se activa un esclavo diferente si falla el esclavo activo. Este modo provee tolerancia a fallos.
+
+\item [Modo 2 (balance-xor)]
+Transmite basándose en una fórmula XOR. Se computa la operación XOR entre la dirección MAC de origen y la de destino, módulo la cantidad de esclavos (es decir, se toma el resto de dividir por la cantidad de esclavos). Este procedimiento tiene el efecto de seleccionar siempre el mismo esclavo para cada dirección MAC destino. Provee balance de carga y tolerancia a fallos.
+
+\item [Modo 3 (broadcast)]
+Este modo transmite todos los frames por todas las interfaces esclavas. Es el menos usado, sólo para propósitos específicos, y sólo provee tolerancia a fallos. 
+
+\item [Modo 4 (802.3ad)]
+Este modo se conoce como el modo de agregación dinámica de enlaces (Dynamic Link Aggregation). Crea grupos de agregación que comparten la misma velocidad y modos de duplexing. Este modo requiere un switch que soporte la norma IEEE 802.3ad (Dynamic Link).
+
+\item [Modo 5 (balance-tlb)]
+Llamado balance de carga adaptativo en transmisión. El tráfico de salida se distribuye de acuerdo a la carga actual y es encolado en cada interfaz esclava. El tráfico entrante es recibido por el esclavo actual. 
+
+\item [Modo 6 (balance-alb)]
+Este modo es el de balance de carga adaptativo. Esto incluye balance-tlb y balance de carga en recepción (rlb) para tráfico IPv4. El balance de carga en recepción se logra por negociación ARP. El driver de bonding intercepta las respuestas ARP enviadas por el servidor y sobreescribe la dirección MAC origen con la dirección MAC única de uno de los esclavos en el bond, de forma que diferentes clientes usen diferentes direcciones MAC para dirigirse al server. 
+\end{description}
+
+\subsection {Detección de eventos}
+Los modos que ofrecen tolerancia a fallos necesitan algún mecanismo para detectar eventos de caída de las interfaces de red (NIC) locales, los enlaces, o las NICs de los extremos opuestos de los vínculos. Ante la detección de un evento de fallo, el bond fuerza la conmutación a otra interfaz, que entonces se convierte en primaria. Esta acción se llama \emph{failover}.  
+
+Para la detección de eventos hay dos opciones posibles.
+
+\begin{enumerate}
+		\item MII (Medium Independent Interface). Especificación que cumplen la mayoría de las NICs modernas, que presenta datos de link activo o inactivo en forma independiente de la implementación del medio conectado. Se debe especificar los parámetros \lstinline$bond-miimon$ (intervalo de revisión del estado del link), \lstinline$bond-downdelay$ (tiempo desde que se detecta fallo hasta que se da de baja la interfaz) y \lstinline$bond-updelay$ (tiempo para volver a poner en servicio la interfaz una vez que vuelve el link a estado activo). 
+		\item ARP. Se establece por configuración una cantidad de direcciones IP de control en la red local, y el bond emite consultas ARP periódicas a estas direcciones. Cuando se deja de recibir respuesta por la interfaz activa durante una cantidad de tiempo, configurable, se considera que ha caído el enlace y se realiza el failover. Se deben configurar los parámetros \lstinline$bond-arp-interval$ (intervalo entre emisión de ARP) y \lstinline$bond-arp-ip-target$ (lista de IPs confiables).
+\end{enumerate}
+  
+\subsection {Configuración en Debian}
+
+\subsubsection {Configuración con MII}
+\begin{lstlisting}
+# /etc/network/interfaces
+# The loopback network interface
+auto lo
+iface lo inet loopback
+auto eth0
+iface eth0 inet manual
+	bond-master bond0
+	bond-primary eth0 eth1
+
+auto eth1
+iface eth1 inet manual
+	bond-master bond0
+	bond-primary eth0 eth1
+
+auto bond0
+iface bond0 inet static
+	address 192.168.1.15
+	netmask 255.255.255.0
+	network 192.168.1.0
+	gateway 192.168.1.1
+	bond-slaves eth0 eth1
+	bond-mode active-backup
+	bond-miimon 100
+	bond-downdelay 200
+	bond-updelay 200
+
+\end{lstlisting}
+
+\subsubsection {Configuración con ARP}
+
+\begin{lstlisting}
+# /etc/network/interfaces
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# No se especifican las auto ethX
+
+auto bond0
+iface bond0 inet static
+	address 10.1.1.1
+	netmask 255.255.255.0
+	network 10.1.1.0
+	bond_primary eth0
+	slaves eth0 eth1
+	bond-mode active-backup
+	bond-arp-interval 2000
+	bond-arp-ip-target 10.1.1.2 10.1.1.3
+
+\end{lstlisting}
+
+
+
+\subsection{Temas de práctica}
+
+La topología de la Fig. \ref{fig:bonding} comprende un nodo llamado switch, y tres nodos conectados a él. El switch tiene cinco interfaces, cada una conectada a un enlace diferente. Dos de los nodos tienen dos interfaces cada uno, y el tercero una sola. Cada interfaz de los nodos host1 a host3 está conectada a su propio enlace. Los enlaces se denominan, de izquierda a derecha en el diagrama, link1 a link5. 
+
+\figura[10]{bonding}{Configuración del laboratorio de bonding}{bonding.png}
+
+\recuadro{
+
+¡Ver las Notas sobre el laboratorio en la sección más abajo!
+
+}
+
+
+\begin{enumerate}
+	\item Configure en forma estática la red del nodo denominado switch implementando un bridge que esclavice a todas sus interfaces. Dé direcciones en el mismo dominio de broadcast a los demás nodos. Compruebe llegada por ping. Observe el tráfico que pasa por las interfaces del switch con el comando tcpdump -i ethX. El nodo virtual switch, ¿resulta un buen modelo de un switch de hardware? ¿Necesita tener una dirección IP? 
+	\item En los nodos host1 y host2, Instale el módulo que permite esclavizar las interfaces con \code{dpkg -i /hostlab/ifenslave-...deb}.
+	\item Configure el nodo host1 indicando en /etc/modules que debe ser cargado el módulo bonding al arranque. Configure la red del mismo nodo, ligando ambas interfaces mediante un bond en modo active-backup. ¿Qué capacidades tiene este modo?
+	\item Mantenga un ping desde host3 a host1, observando el tráfico por las interfaces del switch. Simule la caída del vínculo con host1.  ¿Se interrumpe el ping? ¿Sigue pasando el tráfico por las mismas interfaces?
+	\item Configure el nodo host2 del mismo modo que en el punto 3, pero con el bond en modo balance-rr. ¿Qué capacidades tiene este modo?
+	\item Ejecute el mismo experimento del punto 4 pero desde host3 a host2. 
+\end{enumerate}
+
+
+\subsubsection{Notas sobre el laboratorio}
+\begin{itemize}
+	\item Es necesario instalar el paquete \code{ifenslave}. En nuestro laboratorio se ha provisto un ejemplar del archivo DEB correspondiente en el directorio \code{/hostlab}.
+	\item Es necesario indicar el modo, técnica de detección de eventos, y parámetros, en el archivo \code{/etc/modules} (a pesar de indicarlo en \code{/etc/network/interfaces}), de la siguiente manera:
+	\begin{lstlisting}
+	alias bond0 bonding
+	options bonding mode=1 miimon=100 downdelay=200 updelay=200
+	\end{lstlisting}
+(detección por MII) o bien:
+	\begin{lstlisting}
+	alias bond0 bonding
+	options bonding mode=1 arp_interval=1000 arp_ip_target=10.1.1.1
+	\end{lstlisting}
+(detección por ARP).
+	\item Al probar sistemas de Alta Disponibilidad, una parte muy importante es la inyección de fallas. La tecnología de virtualización utilizada para el laboratorio no permite replicar correctamente el evento de caída de interfaz, enlace o peer, cuando se usa la técnica de detección de fallas MII (la interfaz aparece siempre conectada). La mejor aproximación que hemos logrado a la simulación de la falla es cuando se elige detección de fallas por ARP.
+	\item Para simular la caída de un vínculo se sugiere detener el proceso UML que simula el enlace. Logramos esto buscando entre todos los procesos \code{uml_switch} de la máquina host aquel relacionado con el nombre del enlace. Por ejemplo, para simular la caída del link1:
+	\begin{lstlisting}
+# ps f | grep uml_switch
+23137 pts/1    S+     0:00  \_ grep uml_switch
+...
+19381 pts/1    S      0:00 /home/rii/netkit/bin/uml_switch -hub -unix /home/oso/.netkit/hubs/vhub_oso_link1.cnct
+# kill -STOP 19381
+\end{lstlisting}
+	El proceso se hace continuar (se restablece el vínculo virtual) con \code{kill -CONT 19381}.
+	\item Cada vez que hagamos un cambio de configuración será preferible, antes de hacer una nueva prueba, bajar y volver a levantar el laboratorio completo con \code{lhalt} y \code{lstart}. 
+	\item La interfaz virtual bond puede monitorearse mirando el pseudo archivo correspondiente en el directorio /proc:
+\begin{lstlisting}
+# cat /proc/net/bonding/bond0 
+Ethernet Channel Bonding Driver: v3.2.5 (March 21, 2008)
+
+Bonding Mode: fault-tolerance (active-backup)
+Primary Slave: eth0
+Currently Active Slave: eth0
+MII Status: up
+MII Polling Interval (ms): 0
+Up Delay (ms): 0
+Down Delay (ms): 0
+ARP Polling Interval (ms): 2000
+ARP IP target/s (n.n.n.n form): 10.1.1.2, 10.1.1.3
+
+Slave Interface: eth0
+MII Status: up
+Link Failure Count: 0
+Permanent HW addr: a6:8a:d7:63:1e:49
+
+Slave Interface: eth1
+MII Status: up
+Link Failure Count: 0
+Permanent HW addr: e6:c9:c8:a3:eb:72
+\end{lstlisting}
+\end{itemize}
+
+
+
+\subsection{Referencias}
+\begin{itemize}
+	\item \url{https://www.kernel.org/doc/Documentation/networking/bonding.txt}
+	\item \url{http://www.linuxfoundation.org/collaborate/workgroups/networking/bonding}
+	\item \url{http://www.cyberciti.biz/tips/debian-ubuntu-teaming-aggregating-multiple-network-connections.html}
+\end{itemize}
+
+

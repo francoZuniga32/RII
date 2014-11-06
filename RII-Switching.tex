@@ -11,8 +11,7 @@
 \end{enumerate}
 
 
-\section{Dominios de colisión y de broadcast}
-\label{sub:}
+\subsection{Dominios de colisión y de broadcast}
 \begin{enumerate}
 \item ¿Qué es un bridge, qué configuración lleva, qué función realiza sobre los frames que circulan por la red, y cómo aprende su información de trabajo? 
 \item ¿Existen bridges inalámbricos? 
@@ -35,7 +34,7 @@
 \figura[12]{broadcast}{Colisiones y broadcasts}{broadcast.jpg}
 
 
-\section{Switches}
+\subsection{Switches}
 \label{sub:Switches}
 
 \begin{enumerate}
@@ -76,7 +75,7 @@
 \figura[12]{dominios}{Dominios}{dominios.jpg}
 
 
-\section{Arquitecturas de redundancia}
+\subsection{Arquitecturas de redundancia}
 \begin{enumerate}
 \item ¿Qué ventajas aporta la redundancia de enlaces en una red LAN? ¿Qué formas de redundancia se pueden implementar? ¿En qué consiste la tolerancia a fallos?
 \item ¿Qué ocurre en una red Ethernet con múltiples caminos entre dos hosts? ¿Qué escenarios de fallo se pueden presentar?  
@@ -87,78 +86,4 @@
 \item ¿En qué consiste el protocolo RSTP?
 \end{enumerate}
 % subsubsection  (end) Arquitecturas de redundancia
-
-
-
-\section{VLANs}
-\label{sub:}
-Un diseño clásico de redes de campus consiste en un router que proyecta segmentos de LAN como radios de una estrella (Fig. \ref{fig:bbcolap}). La función de comunicar los radios, que anteriormente era cumplida por el backbone de la red, en este diseño se logra por la conmutación efectuada por el router, por lo cual suele llamarse de backbone colapsado. 
-
-Con este diseño, los dominios de broadcast, y por lo tanto los espacios IP definidos sobre ellos, quedan limitados geográficamente. Si en una zona del campus donde llega un radio de la estrella se necesita ubicar nodos sobre dos dominios de broadcast (porque se desea aislarlos por motivos de seguridad, porque se desea situar equipos sobre dos espacios IP diferentes, o porque se desea limitar la competencia de ambas clases de tráfico por el medio), debe haber dos cableados y deben ocuparse dos bocas del router central. 
-
-\figura[8]{bbcolap}{Backbone colapsado}{backbone-colapsado.jpg}
-
-\figura[12]{vlans}{VLANs}{vlans.jpg}
-
-
-Con la funcionalidad avanzada de VLANs provista por algunos switches (y definida en el estándar IEEE 802.1Q), el mismo cableado, y el sistema de switches de llegada, puede usarse para conducir dos o más dominios de broadcast. 
- 
-\begin{itemize}
-
-
-	\item ¿En qué consiste el diseño de red de campus de backbone colapsado? ¿Qué impacto tiene este diseño sobre la posibilidad de distribuir equipos de diferentes clases sobre una misma región de la red?
-	\item 
-¿Cuál es la finalidad de definir VLANs en un switch? 
-
-	\item 
-¿Cómo se modifica el formato de frame Ethernet para lograr la capacidad de separar los dominios de broadcast al definir VLANs?
-
-	\item ¿Qué debe hacer un switch con VLANs definidas al recibir un frame de broadcast sobre una de sus interfaces? ¿Qué debe hacer con un frame unicast?
-
-	\item En la topología de la figura \ref{fig:vlans}, los tres switches tienen definidas dos VLANs. Los hosts H1, H2 y H4 pertenecen a la VLAN 1, y los hosts H3, H5 y H6 a la VLAN 2. 
-
-	\begin{itemize}
-		\item ¿Qué deben hacer los switches con un frame de broadcast recibido desde el host H2?
-		\item ¿Qué deben hacer los switches con un frame unicast recibido desde el host H5 y dirigido a H6? ¿Lo mismo, pero desde H5 a H3? ¿Qué diferencia en el formato de los frames existe entre un caso y otro, en cada punto del camino?
-		\item ¿Qué condición deben cumplir los ports que interconectan los switches entre sí para poder distribuir las VLANs por toda la topología?
-		\item ¿Es posible que una aplicación en el host H5 inicie conexión TCP/IP con una aplicación servidora situada en H2? 
-	\end{itemize} 
-
-\item ¿Qué elemento externo es necesario para conectar diferentes VLANs en una misma jerarquía de switches? 
-\item ¿Qué son los switches multicapa o \emph{multilayer}? 
-\end{itemize} 
-
-% subsection  (end) VLANs
-
-
-\section {Estudio de caso I}
-
-
-Una organización desarrolla sus actividades en un campus con dos edificios principales, que alojan las oficinas y talleres. En la organización existen tres áreas principales: Operaciones, Comercialización, e Ingeniería. 
-
-Cada área utiliza un servidor de base de datos principal que es propio del área. La organización cuenta además con un servidor de web y de correo electrónico, un servidor de archivos y un servidor de backups, los tres de uso general para las tres áreas. Se desea que todos los puestos de trabajo puedan acceder además a Internet. 
-
-Una preocupación especial de la organización es darle protección a los servidores y puestos de trabajo de Ingeniería, que no deben ser accedidos desde las demás áreas.
- 
-La planta del campus y sus edificios, con los principales puntos donde se necesita conectividad, es como indica la Fig. \ref{fig:caso01}. En este diagrama se muestran, con diferentes colores, los puestos de trabajo de cada área. 
-
-
-\figura[12]{caso01}{Conectar el campus de una organización}{caso01.jpg}
-
-
-En base a esta información, indique:
-\begin{itemize}
-	\item Dónde situaría los servidores mencionados.
-	\item Dónde ubicaría los elementos de conectividad (switches y routers).
-	\item Qué cantidad de puertos debería tener cada uno de estos elementos.
-	\item Con qué medios (cobre, fibra, inalámbricos) vincularía los clientes y los elementos de conectividad.
-	\item Cómo distribuiría direcciones IP para los clientes y servidores. 
-	\item Si utilizaría alguna arquitectura de VLANs, cuál, y por qué. En caso afirmativo, cómo relacionaría las VLANs entre sí, qué enlaces entre switches y routers deben ser de trunking y por qué.
-	\item Si utilizaría alguna forma de redundancia, y en caso afirmativo, cuál debe ser el camino normal del tráfico y por qué.
-\end{itemize}
-
-
-
-
-
 

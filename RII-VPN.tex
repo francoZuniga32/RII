@@ -1,0 +1,296 @@
+
+\section{Elementos de las VPN}
+\begin{itemize}
+	\item VPN = \emph{Virtual Private Network}
+	\item Un software específico (cliente-servidor) establece una red \emph{virtual} entre las entidades
+	\item Sólo aquellos miembros autorizados de la red virtual \emph{privada} pueden utilizarla
+	\item \emph{Tunneling} o encapsulamiento de ciertas capas en otras
+	\item Encriptación
+\end{itemize}
+
+
+\subsection{Motivación de las VPN}
+\begin{itemize}
+	\item El software de la organización evoluciona a aplicaciones colaborativas (Groupware, CRM , ERP...)
+	\item Trabajo de todos los colaboradores sobre el espacio digital de la organización
+	\item Diferentes sedes, o colaboradores (domiciliarios o móviles), en diferentes lugares de la región o del mundo
+	\item Soporte universal de Internet en lugar de enlaces arrendados, dedicados
+	\item Requerimientos de seguridad
+	\item Firewalls y NAT requieren \emph{conduits} o perforaciones para acceder a los servicios de las sedes
+ \end{itemize}
+
+
+
+\subsection{Modelos de VPN}
+\begin{itemize}
+	\item Implementadas y administradas por un proveedor de comunicaciones
+	\item Implementadas y administradas por el usuario sobre un transporte común (Internet)
+\end{itemize}
+
+
+\subsection{Niveles de implementación}
+\begin{itemize}	 
+
+	\item De nivel de Enlace o de capa 2
+
+	\begin{itemize}
+		\item Único espacio IP y dominio de broadcast
+		\item La VPN trafica frames
+		\item Bridging
+	\end{itemize} 
+
+	\item De nivel de Red o de capa 3
+
+	\begin{itemize}
+		\item  Varias redes con diferentes espacios IP y un servidor VPN que las conecta como backbone 
+		\item La VPN trafica paquetes
+		\item Ruteo
+	\end{itemize}
+\end{itemize}
+
+
+\subsection{Algunas tecnologías}
+\begin{itemize}
+	\item GRE (RFCs 1701, 1702) Mecanismo general de tunneling, no define encriptación
+	\item Protocolos de capa 2: PPTP (Microsoft), L2F, L2TP, L2Sec
+	\item Protocolos de capa 3: IPSec
+	\item Protocolos de capa 4: SSL/TLS, OpenVPN
+\end{itemize}
+
+
+\figura{vpnbrid} {VPN de capa 2, equivalente a un bridge} {vpn1-bridge.jpg}
+
+\figura{vpnrut} {VPN de capa 3, equivalente a un router} {vpn1-router.jpg}
+
+
+\section{OpenVPN}
+
+\begin{itemize}
+	\item OpenVPN puede funcionar como VPN de capa 2 o de capa 3. 
+	\item Proyecto libre compatible con Windows.
+	\item No interoperable con IPSec.
+	\item Dos procesos, cliente y servidor, corren en diferentes hosts en diferentes redes. 
+	\item Cliente y servidor establecen una conexión TCP/IP que utilizan como túnel.
+	\item El resto del trabajo lo hace el bridging (en las VPN de capa 2) o el ruteo (de capa 3). 
+	\item La arquitectura de OpenVPN (y otras implementaciones de redes virtuales) es un ejemplo claro de uso de interfaces virtuales como los bridges y tun/tap. 
+\end{itemize}
+
+\subsection{Soporte necesario para OpenVPN}
+\begin{description}
+	\item [Tun/Tap] Dispositivos de red virtuales. Trafican unidades de datos entre procesos. 
+	\begin{itemize}
+		\item Un dispositivo tun (de capa 3) trafica paquetes, mientras que un tap (de capa 2) intercambia frames. 
+		\item El propósito básico de Tun/Tap es la creación de túneles.
+		\item Un proceso que tiene un dispositivo tun abierto puede escribir un paquete en él.  Del mismo modo, un dispositivo tun que recibe un paquete IP lo envía a un proceso de usuario que tiene abierto ese dispositivo.
+		\item Un proceso que tiene un dispositivo tap abierto puede escribir un frame en él.  Del mismo modo, un dispositivo tap que recibe un frame lo envía a un proceso de usuario que tiene abierto ese dispositivo.
+	\end{itemize}
+	\item [Bridge] Un dispositivo bridge de software funciona exactamente igual que un bridge físico pero entre interfaces del mismo host. Es decir, copia frames de una a otra interfaz de capa 2 (reales o virtuales) efectuando filtrado por dirección MAC e inundando los broadcasts.
+	\begin{itemize}
+		\item Un bridge Linux \emph{esclaviza} a dos o más interfaces (reales o virtuales).
+		\item Al ser incorporada una interfaz a un bridge, pierde su dirección IP y ésta pasa al bridge. 
+		\item Los bridges Linux se controlan desde la línea de comandos con el comando brctl.
+\end{itemize}
+	\item[Ruteo] El kernel utiliza la tabla de ruteo para mover paquetes entre interfaces. Cuando aparece por una interfaz (real o virtual) un paquete de capa 3, se consulta la tabla de ruteo, que dice en cuál interfaz (real o virtual) debe copiarse.  
+	\item [OpenSSL] Biblioteca de encriptación de uso general, para proteger la privacidad del tráfico a través de la VPN.
+	\item [LZO] Biblioteca de compresión de datos para mejorar la performance del túnel creado por la VPN.
+\end{description}
+
+
+
+\subsection{Funcionamiento de OpenVPN en capa 2}
+
+\begin{enumerate}
+	\item En el host cliente:
+	\begin{itemize}
+		\item Se crea un dispositivo tapX.
+		\item Se establece un bridge entre una interfaz local (ethX) y el tapX.
+		\item La dirección IP de la interfaz local pasa al bridge.
+		\item El proceso cliente de OpenVPN abre el dispositivo tapX y además establece conexión con el servidor a través de Internet.
+		\item Cuando el host cliente reciba de su red local un frame por ethX, el bridge filtrará el frame hacia el tapX. El proceso cliente de OpenVPN recibirá el frame y lo derivará por la conexión TCP/IP hacia el servidor.
+		\item Cuando el proceso cliente reciba un frame a través de la conexión TCP/IP, lo escribirá por la interfaz tapX. El bridge del host cliente recibirá el frame y le aplicará la acción de bridging correspondiente. 
+	\end{itemize}
+	\item En el host servidor:
+	\begin{itemize}
+		\item Se crea un dispositivo tapX.
+		\item Se establece un bridge entre una interfaz local (ethX) y el tapX.
+		\item La dirección IP de la interfaz local pasa al bridge.
+		\item El proceso servidor de OpenVPN abre el dispositivo tapX y espera pedido de conexión del cliente a través de Internet.
+		\item Cuando el host servidor reciba de su red local un frame por ethX, el bridge filtrará el frame hacia el tapX. El proceso servidor de OpenVPN lo tomará y lo derivará por la conexión TCP/IP hacia el cliente.
+		\item Cuando el proceso servidor reciba un frame a través de la conexión TCP/IP, lo escribirá por la interfaz tapX. El bridge del host cliente recibirá el paquete y le aplicará la acción de bridging correspondiente. 
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Funcionamiento de OpenVPN en capa 3}
+
+\begin{enumerate}
+	\item En el host cliente:
+	\begin{itemize}
+		\item Se crea un dispositivo tunX.
+		\item El proceso cliente de OpenVPN abre el dispositivo tunX y además establece conexión con el servidor a través de Internet.
+		\item El tunX local recibe dirección IP A. Queda establecido un túnel entre procesos cliente y servidor cuyos extremos tienen direcciones IP A y B.
+		\item Se establece una ruta que dirige los paquetes destinados a la red Y via tunX (próximo salto: B).
+		\item Cuando el host cliente reciba de su red local, o de procesos locales, un paquete destinado a la red Y, lo escribirá en la interfaz de red virtual tunX. El proceso cliente de OpenVPN lo recibirá y lo derivará por la conexión TCP/IP hacia el servidor.
+		\item Cuando el proceso cliente reciba un paquete a través de la conexión TCP/IP, lo escribirá por la interfaz tunX. El kernel del host cliente recibirá el paquete y le aplicará las reglas de ruteo correspondientes. 
+	\end{itemize}
+	\item En el host servidor:
+	\begin{itemize}
+		\item Se crea un dispositivo tunX.
+		\item El proceso servidor de OpenVPN abre el dispositivo tunX y espera pedido de conexión del cliente a través de Internet.
+		\item El tunX local recibe dirección IP B. Queda establecido un túnel entre procesos cliente y servidor cuyos extremos tienen direcciones IP A y B. 
+		\item Se establece una ruta que dirige los paquetes destinados a la red X via tunX (próximo salto: A).
+		\item Cuando el kernel del host servidor reciba de su red local, o de procesos locales, un paquete destinado a la red X, lo escribirá en la interfaz de red virtual tunX. El proceso servidor de OpenVPN tomará el paquete y lo derivará por la conexión TCP/IP hacia el cliente.
+		\item Cuando el proceso servidor reciba un paquete a través de la conexión TCP/IP, lo escribirá por la interfaz tunX. El kernel del host servidor recibirá el paquete y le aplicará las reglas de ruteo correspondientes. 
+	\end{itemize}
+\end{enumerate}
+
+\figura{vpnl2} {VPN de capa 2, trafica frames} {vpn-l2.jpg}
+
+\figura{vpnl3} {VPN de capa 3, trafica paquetes} {vpn-l3.jpg}
+
+\section{Configuración de OpenVPN}
+
+\subsection{Autenticación mediante clave privada}
+\begin{itemize}
+	\item PKI = Public Key Infrastructure
+	\item La seguridad en redes comprende problemas como la confidencialidad y la integridad de los mensajes, y la autenticación de los usuarios o dispositivos
+	\item Clave simétrica, con secreto compartido, vs. Claves asimétricas
+	\item Dificultad de la distribución de claves, solución: claves asimétricas
+	\item Cada usuario tiene $K+$ = Clave pública, $K-$ = Clave privada
+	\item Dos escenarios de uso:
+	\begin{itemize}
+	\item Cuando A encripta con la $K+$ de B:
+	\begin{itemize}
+		\item A envía a B en forma segura, nadie puede leer el mensaje
+		\item Sólo B puede desencriptarlo con su $K-$
+		\item Se asegura la confidencialidad
+	\end{itemize}
+	\item Cuando A encripta con su propia $K-$:
+	\begin{itemize}
+		\item Cualquiera puede leer el mensaje con la $K+$ de A
+		\item Pero sólo A puede haberlo escrito, con su $K-$ (firma digital)
+		\item Se aseguran la integridad y la autenticidad
+	\end{itemize} 
+	\end{itemize}
+	\item El problema al utilizar la $K+$ de A que hemos recibido es \emph{asegurar que es realmente la de A}
+	\item Se resuelve mediante autoridades de certificación (CA), entidades confiables
+	\item La clave pública de A, junto con la identidad de A, firmada digitalmente por una CA, es un \emph{certificado} de A
+	\item Conexión segurizada por PKI
+	\begin{enumerate}
+		\item Fase de autenticación mutua mediante intercambio de certificados, validando los certificados según la CA.
+		\item Usando las $K+$ recibidas, las partes acuerdan en forma segura una clave simétrica que sirve para esta sesión.
+		\item El resto de la comunicación se encripta usando esta clave simétrica (métodos DES, 3DES, AES).
+	\end{enumerate} 
+\end{itemize}
+
+
+\subsection{Crear una Autoridad de Certificación}
+
+En el servidor de VPN, copiar el directorio \lstinline{/usr/share/doc/openvpn/examples/easy-rsa} y todos sus contenidos a /etc/openvpn
+\begin{lstlisting}
+cd /etc/openvpn/easy-rsa/2.0
+vi vars
+. vars
+./clean-all
+./build-dh
+./build-ca
+./build-key-server servidor
+./build-key cliente1
+./build-key cliente2
+# Migrar los certificados
+# En el server:
+# ca.crt ca.key dh1024.pem r3.crt r3.key
+# 
+# En el cliente:
+# ca.crt r1.crt r1.key
+\end{lstlisting}
+
+
+\subsection{Documentación online}
+\begin{itemize}
+	\item Proyecto Lihuén\footnote{\url{http://lihuen.linti.unlp.edu.ar/index.php?title=Configurando_Redes_Privadas_Virtuales_con_OpenVPN}}
+	\item OpenVPN HOWTO\footnote{\url{http://openvpn.net/index.php/open-source/documentation/howto.html}}
+\end{itemize}
+
+
+\subsection{Vinculación de LANs mediante Openvpn}
+\begin{itemize}
+	\item Instalar OpenVPN en los nodos de frontera de las LANs.
+	\item Decidir cuál nodo será el servidor. Debe tener dirección IP pública accesible desde los clientes. No es necesaria la traducción DNS salvo que se trate de una IP dinámica.
+	\item Preparar una autoridad de certificación (por ejemplo, en el servidor), y certificados para el servidor y para los clientes.
+	\item Se pueden utilizar los modelos de archivos de configuración existentes en \url{/usr/share/doc/openvpn/examples}.
+	\item En el directorio \lstinline{/etc/openvpn} del servidor preparar el archivo de configuración \lstinline{server.conf}, y en los clientes, \lstinline{client.conf}. Al arrancar, OpenVPN lee todos los archivos con extensión .conf que existan en ese directorio, y crea un proceso por cada uno, con la configuración que contengan.
+	\item Modificar los parámetros de configuración:
+	\begin{enumerate}
+		\item Cliente o servidor
+		\item Dirección y port, nodo local o remoto
+		\item Protocolo UDP o TCP
+		\item Device Tun o Tap, según la capa de operación de la VPN  
+		\item Nombres de los archivos de clave y certificado 
+		\item Archivo de log, útil para debugging de la configuración y operación
+		\item Rutas a redes propias que deban ser inyectadas en el peer
+\end{enumerate} 
+	\item Arrancar o detener la VPN con el comando \lstinline{/etc/init.d/openvpn [start|stop]}.
+\end{itemize}
+
+\subsubsection {OpenVPN de nivel de Red}
+Al configurar OpenVPN en capa 3, o nivel de Red, la configuración de OpenVPN puede asumir la creación de rutas entre las redes clientes y las de detrás del servidor. Estas rutas aparecen y desaparecen en la tabla de ruteo de los nodos extremos de la VPN según se activa o desactiva el proceso de OpenVPN.
+
+\begin{itemize}
+	\item Para que el cliente conozca las redes detrás del servidor, éste le inyecta las rutas correspondientes con la opción push de la configuración.
+	\item El servidor instala rutas a las redes detrás de los clientes si se  especifican con la directiva route de la configuración del servidor. Además, para cada cliente, debe haber un archivo con la directiva iroute dentro del subdirectorio /etc/openvpn/ccd.
+\end{itemize}
+
+\subsubsection {OpenVPN de nivel de Enlace}
+Al configurar OpenVPN en capa 2, o nivel de Enlace, la configuración debe incluir la administración del bridge entre la interfaz de red local y el dispositivo Tap que es utilizado por la VPN. Los frames que llegan a la interfaz de la red local serán copiados por el bridge en el Tap y seguirán su camino a través de la VPN.
+
+Para la administración del bridge hay dos estrategias básicas: 
+\begin{itemize}
+	\item El bridge puede tener una definición estática, y ser siempre activado cada vez que arranca el equipo, y sólo ser desactivado cuando se detiene el equipo.
+	\item El bridge puede ser activado y desactivado cuando se inicia y detiene OpenVPN. 
+\end{itemize}
+
+
+En el primer caso, la existencia del bridge es completamente independiente de la activación de la VPN. Para esta opción existe una forma de configuración del bridge que es dependiente del sistema operativo (ver Anexo \ref{subsec:staticbridge}). 
+
+Para la segunda opción, es conveniente utilizar los scripts de creación de tap y montado de bridges que se muestran en el Anexo \ref{sec:bridgeupdown} y dispararlos con las directivas up y down de la configuración de OpenVPN. Por ejemplo:
+
+\begin{lstlisting}
+...
+ca ca.crt
+cert server.crt
+key server.key
+dh dh1024.pem
+...
+up /etc/openvpn/bridge-up
+down /etc/openvpn/bridge-down
+\end{lstlisting}
+
+
+\section{Temas de práctica}
+El laboratorio de la Fig. \ref{fig:vpn-lab1} se encuentra implementado sobre máquinas virtuales. 
+\begin{comment}Utilizando una consola, encontrará en el directorio \lstinline{labs/openvpn-1} una configuración de laboratorio que se arranca con el comando \lstinline{lstart} y se detiene con \lstinline{lhalt}. 
+\end{comment}
+
+
+\figura{vpn-lab1}{Laboratorio 1 OpenVPN}{vpn-lab1.jpg}
+
+El equipo virtual $R2$, que es gateway default de los otros routers, simula la Internet, en el sentido de que descarta todo tráfico dirigido a redes privadas. Por este motivo las redes con prefijo 10.0.0.0/8, del laboratorio, no son accesibles una desde la otra, siendo necesaria una solución de Red Privada Virtual. La configuración de este equipo $R2$ no debe ser modificada.
+
+\begin{itemize}
+	\item Verifique que las direcciones, ruteo default y topología corresponden a la figura.
+	\item Verifique servicio de nombres, ping y traceroute a www.google.com.
+	\item Ping a los routers de la topología.
+	\item Ping a los hosts de la misma LAN.
+	\item Ping a los hosts de la LAN opuesta. 
+	\item Compruebe navegación en ambiente de caracteres con el comando \code{lynx http://www.google.com}.
+	\item Compruebe que puede correr el web server Apache en cualquiera de las PCs. 
+	\item Compruebe navegación en ambiente de caracteres desde una PC al servidor Apache del otro nodo de la misma LAN.
+\end{itemize}
+
+Una vez que esté familiarizado con el escenario:
+\begin{enumerate}
+	\item Implementar una VPN de capa 3 entre ambas LANs. Verifique las interfaces existentes en los nodos cabecera y el contenido de sus tablas de ruteo. Comprobar que los  clientes de una de las redes pueden utilizar recursos (ssh, servidor http) de clientes de la otra. Instale servicios basados en broadcast (como Samba, sobre el protocolo SMB) y observe desde qué lugares pueden accederse.
+	\item Modificar el direccionamiento IP del laboratorio para que todos los clientes reciban direcciones en la misma subred e implementar una VPN de capa 2. Comprobar que ambas redes forman un único dominio de broadcast. Verifique el comportamiento de los protocolos basados en broadcast como SMB. 
+	\item ¿Usaría transporte UDP o TCP para una VPN en capa 2?
+\end{enumerate}
+

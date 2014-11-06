@@ -4,40 +4,57 @@
 \usepackage[spanish]{babel}
 \usepackage{amsmath}
 \usepackage{amssymb,amsfonts,textcomp}
-\usepackage{color}
+\usepackage{xcolor}
 \usepackage{array}
 \usepackage{multirow}
 \usepackage{hhline}
-\usepackage{hyperref}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage{float}
 \usepackage{xkeyval}
 \usepackage[pdftex]{graphicx}
 \usepackage[yyyymmdd,hhmmss]{datetime}
 \usepackage{appendix}
 \usepackage{listings}
+\usepackage{wasysym}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
-\definecolor{lstbackground}{rgb}{0.90,0.90,0.90}
+\definecolor{lstbackground}{rgb}{0.95,0.95,0.95}
+%\lstset{frame=tb,
+%	backgroundcolor=\color{lstbackground},
+%  language=Bash,
+%  aboveskip=3mm,
+%  belowskip=3mm,
+%  showstringspaces=false,
+%  columns=flexible,
+%  basicstyle={\small\ttfamily},
+%  numbers=none,
+%  numberstyle=\tiny\color{gray},
+%  keywordstyle=\color{blue},
+%  commentstyle=\color{dkgreen},
+%  stringstyle=\color{mauve},
+%  breaklines=true,
+%  breakatwhitespace=true
+%  tabsize=3
+%}
+
 \lstset{frame=tb,
 	backgroundcolor=\color{lstbackground},
-  language=Bash,
+%  language=Bash,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
   columns=flexible,
   basicstyle={\small\ttfamily},
   numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
+%  numberstyle=\tiny\color{gray},
+%  keywordstyle=\color{blue},
+%  commentstyle=\color{dkgreen},
+%  stringstyle=\color{mauve},
   breaklines=true,
   breakatwhitespace=true
-  tabsize=3
+  tabsize=4
 }
-
-
 
 \usepackage{verbatim}
 \begin{comment}
@@ -161,6 +178,29 @@
  \end{figure} 
 }
 
+\newcommand{\tabla}[4]{
+ \begin{table} 
+ \centering 
+ \small
+ \begin{tabular}{#3}
+ #4
+ \end{tabular}
+ \caption{#2}
+ \label{tab:#1} 
+ \end{table} 
+}
 
+\usepackage{mdframed}
+
+\newcommand{\recuadro}[1]{
+\begin{minipage}[c]{0.84\textwidth}
+\begin{mdframed}
+#1
+\end{mdframed}
+\end{minipage}
+}
+
+\newcommand{\code}[1]{\lstinline$#1$}
+%\newcommand{\code}[1]{\begin{verbatim}{#1}\end{verbatim}}
 
 

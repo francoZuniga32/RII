@@ -1,5 +1,5 @@
 \input {RII-header}
-\hypersetup{pdftex, colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, 
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, 
 	pdftitle={Redes II}, 
 	pdfauthor={Eduardo Grosclaude}, 
 	pdfsubject={Documento de la materia Redes II}, 
@@ -7,14 +7,14 @@
 
  
 % --------------------------------------------------------------------
-\begin{document}
+\begin{document}\sloppy
 
 \maketitle
 
 \borrador
 
 
-\abstract { En este escrito se presenta la descripción y material inicial de la asignatura \textbf{Redes II}, para la carrera de Tecnicatura Universitaria en Administración de Sistemas y Software Libre, de la Universidad Nacional del Comahue. 
+\abstract {En este escrito se presenta la descripción y material inicial de la asignatura \textbf{Redes II}, para la carrera de Tecnicatura Universitaria en Administración de Sistemas y Software Libre, de la Universidad Nacional del Comahue. 
 
 La materia es electiva, cuatrimestral en modalidad presencial y las clases son de carácter teórico-práctico, desarrolladas en forma colaborativa. Está preparada con los objetivos generales de  \textbf{actualizar y ampliar el instrumental de trabajo en ambientes de redes}. 
   
@@ -34,21 +34,24 @@ La materia es electiva, cuatrimestral en modalidad presencial y las clases son d
 \part {La asignatura}
 
 \input {RII-asignatura}
-%\input {ASA-eval}
-%\input {ASA-cronog}
+%\input {RII-eval}
+\input {RII-cronog}
 
 %----------- M A T E R I A L ---------
 \newpage
 \part {Switching}
 \input {RII-Switching}
+\input {RII-VLAN}
+\input {RII-EstudioDeCasoI}
 
 \newpage
 \part {Redes Privadas Virtuales}
-%\input {RII-VPN}
+\input {RII-VPN}
 
 \newpage
-\part {Balance de carga y Alta Disponibilidad en redes}
-%\input {RII-LB-HA}
+\part {Balance de carga  y Alta Disponibilidad  en redes}
+\input {RII-LB-HA}
+\input {Split-access}
 
 
 
