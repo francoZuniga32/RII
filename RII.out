@@ -43,31 +43,32 @@
 \BOOKMARK [3][-]{section*.27}{Notas sobre el laboratorio}{section*.26}% 43
 \BOOKMARK [2][-]{section*.28}{Referencias}{section.4.1}% 44
 \BOOKMARK [1][-]{section.4.2}{Balance de Carga}{part.4}% 45
-\BOOKMARK [2][-]{section*.29}{Herramientas}{section.4.2}% 46
-\BOOKMARK [3][-]{section*.30}{Paquete iproute2}{section*.29}% 47
-\BOOKMARK [3][-]{section*.31}{Comando iptables}{section*.29}% 48
-\BOOKMARK [2][-]{section*.32}{Ruteo por pol\355ticas}{section.4.2}% 49
+\BOOKMARK [2][-]{section*.29}{Paquete iproute2}{section.4.2}% 46
+\BOOKMARK [2][-]{section*.30}{Comando iptables}{section.4.2}% 47
+\BOOKMARK [2][-]{section*.31}{Ruteo por pol\355ticas}{section.4.2}% 48
+\BOOKMARK [3][-]{section*.32}{Creaci\363n de tablas de ruteo}{section*.31}% 49
 \BOOKMARK [2][-]{section*.33}{Definici\363n de pol\355ticas}{section.4.2}% 50
 \BOOKMARK [3][-]{section*.34}{Pol\355tica seg\372n el origen}{section*.33}% 51
-\BOOKMARK [3][-]{section*.35}{Pol\355tica seg\372n el tr\341fico}{section*.33}% 52
-\BOOKMARK [2][-]{section*.36}{Temas de pr\341ctica}{section.4.2}% 53
-\BOOKMARK [3][-]{section*.37}{Laboratorio virtual de Split Access}{section*.36}% 54
-\BOOKMARK [3][-]{section*.38}{Notas del laboratorio}{section*.36}% 55
-\BOOKMARK [0][-]{part.5}{V Anexos}{}% 56
-\BOOKMARK [1][-]{appendix.Alph1}{VLANs en Linux}{part.5}% 57
-\BOOKMARK [2][-]{section*.39}{Creaci\363n de VLAN}{appendix.Alph1}% 58
-\BOOKMARK [2][-]{section*.40}{Consultar el VLAN ID de una interfaz}{appendix.Alph1}% 59
-\BOOKMARK [2][-]{section*.41}{Dar una direcci\363n IP}{appendix.Alph1}% 60
-\BOOKMARK [2][-]{section*.42}{Desactivar administrativamente una interfaz}{appendix.Alph1}% 61
-\BOOKMARK [2][-]{section*.43}{Eliminar una interfaz}{appendix.Alph1}% 62
-\BOOKMARK [1][-]{appendix.Alph2}{Bridging en Linux}{part.5}% 63
-\BOOKMARK [2][-]{section*.44}{Interfaz para creaci\363n e inspecci\363n de bridges}{appendix.Alph2}% 64
-\BOOKMARK [2][-]{section*.45}{Configuraci\363n est\341tica de bridges}{appendix.Alph2}% 65
-\BOOKMARK [3][-]{section*.46}{Configuraci\363n en RedHat, CentOS, derivados}{section*.45}% 66
-\BOOKMARK [3][-]{section*.47}{Configuraci\363n en Debian, Ubuntu, derivados}{section*.45}% 67
-\BOOKMARK [1][-]{appendix.Alph3}{Ejemplos de configuraci\363n OpenVPN}{part.5}% 68
-\BOOKMARK [2][-]{section*.48}{Servidor}{appendix.Alph3}% 69
-\BOOKMARK [2][-]{section*.49}{Cliente}{appendix.Alph3}% 70
-\BOOKMARK [1][-]{appendix.Alph4}{Scripts para OpenVPN en modo bridge}{part.5}% 71
-\BOOKMARK [2][-]{section*.50}{Archivo sample-scripts/bridge-start}{appendix.Alph4}% 72
-\BOOKMARK [2][-]{section*.51}{Archivo sample-scripts/bridge-stop}{appendix.Alph4}% 73
+\BOOKMARK [3][-]{section*.35}{Pol\355tica seg\372n la clase de tr\341fico}{section*.33}% 52
+\BOOKMARK [3][-]{section*.36}{Pol\355tica de balance de carga}{section*.33}% 53
+\BOOKMARK [2][-]{section*.37}{Temas de pr\341ctica}{section.4.2}% 54
+\BOOKMARK [3][-]{section*.38}{Laboratorio virtual de Split Access}{section*.37}% 55
+\BOOKMARK [3][-]{section*.39}{Notas del laboratorio}{section*.37}% 56
+\BOOKMARK [0][-]{part.5}{V Anexos}{}% 57
+\BOOKMARK [1][-]{appendix.Alph1}{VLANs en Linux}{part.5}% 58
+\BOOKMARK [2][-]{section*.40}{Creaci\363n de VLAN}{appendix.Alph1}% 59
+\BOOKMARK [2][-]{section*.41}{Consultar el VLAN ID de una interfaz}{appendix.Alph1}% 60
+\BOOKMARK [2][-]{section*.42}{Dar una direcci\363n IP}{appendix.Alph1}% 61
+\BOOKMARK [2][-]{section*.43}{Desactivar administrativamente una interfaz}{appendix.Alph1}% 62
+\BOOKMARK [2][-]{section*.44}{Eliminar una interfaz}{appendix.Alph1}% 63
+\BOOKMARK [1][-]{appendix.Alph2}{Bridging en Linux}{part.5}% 64
+\BOOKMARK [2][-]{section*.45}{Interfaz para creaci\363n e inspecci\363n de bridges}{appendix.Alph2}% 65
+\BOOKMARK [2][-]{section*.46}{Configuraci\363n est\341tica de bridges}{appendix.Alph2}% 66
+\BOOKMARK [3][-]{section*.47}{Configuraci\363n en RedHat, CentOS, derivados}{section*.46}% 67
+\BOOKMARK [3][-]{section*.48}{Configuraci\363n en Debian, Ubuntu, derivados}{section*.46}% 68
+\BOOKMARK [1][-]{appendix.Alph3}{Ejemplos de configuraci\363n OpenVPN}{part.5}% 69
+\BOOKMARK [2][-]{section*.49}{Servidor}{appendix.Alph3}% 70
+\BOOKMARK [2][-]{section*.50}{Cliente}{appendix.Alph3}% 71
+\BOOKMARK [1][-]{appendix.Alph4}{Scripts para OpenVPN en modo bridge}{part.5}% 72
+\BOOKMARK [2][-]{section*.51}{Archivo sample-scripts/bridge-start}{appendix.Alph4}% 73
+\BOOKMARK [2][-]{section*.52}{Archivo sample-scripts/bridge-stop}{appendix.Alph4}% 74

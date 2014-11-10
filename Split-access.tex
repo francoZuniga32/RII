@@ -1,9 +1,13 @@
 \section{Balance de Carga}
 
 
-Consideraremos en esta sección el problema de una organización con dos o más accesos a Internet a través de diferentes proveedores. Los enlaces extra se han contratado con la idea de seguir obteniendo acceso en caso de que uno de los proveedores falle. Sin embargo, resulta costoso diseñar una solución en modo \textit{activo-standby} (con sólo uno de los enlaces activo y sin aprovechar los demás), por lo cual en general esta solución debe incorporar alguna forma de distribución de tráfico por todos los enlaces, es decir, alguna forma de balance de carga. El ruteo default solamente permite indicar un camino de salida, de manera que se necesitará alguna técnica adicional para distribuir el tráfico.
+Consideraremos el problema de una organización con dos o más accesos a Internet a través de diferentes proveedores. Los enlaces extra se han contratado con la idea de seguir obteniendo acceso en caso de que uno de los proveedores falle (Fig. \ref{fig:split}). Sin embargo, resulta costoso diseñar una solución en modo \textit{activo-standby} (con sólo uno de los enlaces activo y sin aprovechar los demás), por lo cual se debe considerar alguna forma de distribución de tráfico por todos los enlaces. El ruteo default permite indicar solamente un camino de salida, de manera que se necesitará alguna técnica adicional para distribuir el tráfico. En general, cuando se necesita establecer alguna decisión administrativa sobre cómo se utilizan las rutas disponibles, se dice que estamos frente a una situación de ruteo por políticas. Una política es simplemente un conjunto de decisiones. 
 
-Por la naturaleza de los protocolos de transporte de Internet, en general no será posible utilizar el total del ancho de banda agregado de todos los enlaces para una sola conexión, ya que segmentos TCP o UDP pertenecientes a la misma conversación con un servidor llegarán a destino provenientes de direcciones IP diferentes (aquellas que resulten del ruteo realizado por los diferentes proveedores). Este patrón de tráfico no puede formar parte de la misma conexión TCP o conversación UDP. Es decir, si se tienen dos accesos de 1Mbps cada uno, no es posible utilizar ambos enlaces agregados para efectuar una transferencia de datos a 2Mbps en una sola conexión. En cambio, sí es posible distribuir la totalidad de la carga entre todos los vínculos, destinando parte de las conexiones por uno u otro enlace. 
+
+\figura[11]{split}{Escenario de acceso dividido}{split}
+
+Por la naturaleza de los protocolos de transporte de Internet, en general no será posible utilizar el total del ancho de banda agregado de todos los enlaces para una sola conexión, ya que segmentos TCP o UDP pertenecientes a la misma interacción con un servidor llegarán a destino provenientes de direcciones IP diferentes (aquellas que resulten del ruteo realizado por los diferentes proveedores). Este patrón de tráfico no puede formar parte de la misma conexión TCP o conversación UDP. Es decir, si se tienen dos accesos de 1Mbps cada uno, no es posible utilizar ambos enlaces agregados para efectuar una única transferencia de datos a 2Mbps en una sola conexión. En cambio, sí es posible distribuir la totalidad de la carga entre todos los vínculos, destinando parte de las conexiones por uno u otro enlace. 
+
 
 El escenario de múltiples accesos a Internet suele llamarse \textit{Split Access} (acceso dividido). Los dos problemas de Split Access son:
 
@@ -12,19 +16,22 @@ El escenario de múltiples accesos a Internet suele llamarse \textit{Split Acces
 	\item Lograr distribución o balance de carga.
 \end{enumerate}
 
-\subsection{Herramientas}
-Las dos principales herramientas de software para conseguir estos objetivos son el paquete \texttt{iproute2} y el comando \texttt{iptables}. Con el primero definiremos una estructura de ruteo especial para el caso de uso de Split Access y con el segundo manipularemos el tráfico para aplicar diferentes condiciones de ruteo.
+Las principales herramientas de software para conseguir estos objetivos son el paquete \texttt{iproute2} y el comando \texttt{iptables}. Con el primero definiremos una estructura de ruteo especial para el caso de uso de Split Access y con el segundo manipularemos el tráfico para aplicar diferentes políticas de ruteo.
 
-\subsubsection{Paquete iproute2}
+\subsection{Paquete iproute2}
 Paquete de configuración de red integral, que reemplaza a utilitarios como \texttt{ifconfig}, \texttt{route}, \texttt{netstat}. Permite configurar interfaces, información de ARP, ruteo por políticas, túneles, etc. Consiste de dos comandos: \texttt{ip}, que controla estado de interfaces y configuración de IPv4 e IPv6, y \texttt{tc}, que administra aspectos de calidad de servicio (\textit{Quality of Service}, QoS). Ejemplos en Cuadro \ref{tab:iproute2}.
 
-\subsubsection{Comando iptables}
-Es la interfaz de usuario al subsistema Netfilter del kernel, que permite modificar la forma como los paquetes IP atraviesan el kernel en su tránsito entre una interfaz de entrada, procesos locales, e interfaz de salida. Según el caso de cada paquete, aplica una serie de reglas impuestas por el usuario y agrupadas en diferentes \textbf{cadenas} (\texttt{PREROUTING, INPUT, OUTPUT, POSTROUTING, FORWARD}). Las reglas se almacenan en \textbf{tablas} que se aplican secuencialmente dentro de cada cadena. Las cadenas se disponen en diferentes lugares del recorrido del paquete por el kernel, y las tablas tienen una aplicación específica:
+\subsection{Comando iptables}
+Es la interfaz de usuario al subsistema Netfilter del kernel, que permite modificar la forma como los paquetes IP atraviesan el kernel en su tránsito entre una interfaz de entrada, procesos locales, e interfaz de salida. Según el caso de cada paquete, aplica una serie de reglas impuestas por el usuario y agrupadas en diferentes \textbf{cadenas} (\texttt{PREROUTING, INPUT, OUTPUT, POSTROUTING, FORWARD}). Las reglas se almacenan en \textbf{tablas} que se aplican secuencialmente dentro de cada cadena. Las cadenas se disponen en diferentes lugares del recorrido del paquete por el kernel, y el usuario puede crear las suyas propias. 
+
+Cada tabla tiene una aplicación específica:
 
 \begin{description}
-	\item[Tabla \texttt{filter}] Aplica reglas de filtrado para implementar políticas de firewalling. 
+	\item[Tabla \texttt{filter}] Aplica reglas de filtrado para implementar políticas de firewalling. Es la tabla por defecto.
 	\item[Tabla \texttt{nat}] Ejecuta edición de direcciones. Por ejemplo, cuando se aplica NAT (\textit{Network Address Translation}), convierte la dirección de salida de un paquete a una dirección propia.
 	\item[Tabla \texttt{mangle}] Permite efectuar cualquier modificación de cualquier zona del paquete, además de afectar datos que acompañan al paquete durante su viaje por el kernel. 
+	\item[Tabla \texttt{raw}] Implementa excepciones al seguimiento de conexiones.
+	\item[Tabla \texttt{security}] Implementa control de acceso obligatorio y permite separar las acciones que puede tomar el usuario de las que impone el sistema.
 \end{description}
 
 El comando \texttt{iptables} diferencia entre paquetes \textbf{destinados al host} (la dirección IP destino del paquete es alguna de las propias), \textbf{originados en el host} (la dirección origen es una dirección propia), o \textbf{en tránsito} (ni la dirección origen ni la dirección destino son propias). Este último caso es el que se presenta habitualmente en un router. 
@@ -56,11 +63,10 @@ El comando \texttt{iptables} diferencia entre paquetes \textbf{destinados al hos
 \figura[11]{iptables-forward}{Recorrido de un paquete reenviado por el host}{iptables-forward.pdf}
 
 \subsection{Ruteo por políticas}
-Un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información contenida en su tabla de ruteo o reenvío. Normalmente la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero apoyándose en el paquete \texttt{iproute2} y con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. La decisión de qué tráfico utilizará cada tabla de ruteo se puede configurar en varias formas. Esta técnica permite asociar una tabla de ruteo distinta con cada acceso en el escenario de Split Access.
+Un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información contenida en una tabla de ruteo o reenvío. Normalmente la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. Esta técnica permite asociar una tabla de ruteo distinta con cada acceso en el escenario de Split Access. La decisión de qué tráfico utilizará cada tabla de ruteo se puede configurar en varias formas. 
 
-Primeramente es necesario definir nombres para las tablas. El paquete \texttt{iproute2} identifica las tablas con números, pero es más fácil para el administrador establecer unos nombres simbólicos en el archivo \texttt{/etc/iproute2/rt\_tables}. Simplemente se eligen números y nombres arbitrarios, que no colisionen con los ya reservados. Los nombres servirán posteriormente para referirse a las diferentes tablas de ruteo usando el comando \texttt{ip}, y pueden ser los nombres de los ISP o proveedores de acceso.
-
-Una vez creados los nombres simbólicos, por cada acceso a Internet disponible es necesario identificar los siguientes datos.
+\subsubsection{Creación de tablas de ruteo}
+El paquete \texttt{iproute2} identifica las tablas con números, pero es más cómodo para el administrador establecer unos nombres simbólicos en el archivo \texttt{/etc/iproute2/rt\_tables}. Simplemente se eligen números y nombres arbitrarios, que no colisionen con los ya reservados. Los nombres servirán posteriormente para referirse a las diferentes tablas de ruteo usando el comando \texttt{ip}, y pueden ser los nombres de los ISP o proveedores de acceso. Una vez creados los nombres simbólicos, por cada acceso a Internet disponible es necesario identificar los siguientes datos.
 \begin{itemize}
 	\item Nombre de la tabla de ruteo ($P$).
 	\item Dirección del router del proveedor ($R$).
@@ -83,21 +89,23 @@ ip route add N dev IF src IP
 \end{enumerate} 
 
 \subsection{Definición de políticas}
-A continuación se establecen las reglas por las cuales uno u otro host cuyo tráfico se va a reenviar, utilizará una u otra tabla de ruteo. 
+A continuación se establecen las reglas por las cuales cada host, cuyo tráfico se va a reenviar, utilizará una u otra tabla de ruteo. 
 
 \subsubsection{Política según el origen}
-La idea es simplemente separar los hosts de las redes locales en grupos, estáticamente, y derivar su tráfico por rutas diferentes y fijas. 
+La idea es simplemente separar los hosts de las redes locales en grupos, estáticamente, por cualquier criterio conveniente; y derivar el tráfico de cada grupo por rutas diferentes y fijas. 
 
-Por cada host o red con dirección IP que se quiere conducir por el acceso P:
+Por cada host o red con dirección $IP$ que se quiere conducir por el acceso $P$:
 \begin{lstlisting}
-		ip rule add from IP table P 
+ip rule add from IP table P 
 \end{lstlisting}
 
-\subsubsection{Política según el tráfico}
+\subsubsection{Política según la clase de tráfico}
 
-Utilizando \texttt{iptables} para manipular la tabla \texttt{mangle} de Netfilter, podemos crear \textbf{marcas} numéricas, que acompañan a los paquetes en su tránsito por el kernel. Estas marcas son reconocidas por el proceso de ruteo y sirven para definir la tabla de ruteo a utilizar para cada paquete.
+Utilizando \texttt{iptables} para manipular la tabla \texttt{mangle} de Netfilter, podemos crear \textbf{marcas} numéricas, que acompañan a los paquetes en su tránsito por el kernel. Estas marcas son reconocidas por el proceso de ruteo, y sirven para definir la tabla de ruteo a utilizar para cada paquete.
 
-Para el tráfico con origen $S$, destino $D$, al port $X$ (u otras condiciones que sea posible seleccionar mediante iptables), marcamos los paquetes en el ingreso con la marca numérica $Z$.
+Marcando los paquetes podemos definir cualquier política basada en las características que puede distinguir iptables en ellos (direcciones IP origen o destino, protocolo, etc.). Cada conjunto de valores de estas características definirá una clase de tráfico.
+
+Por ejemplo, para el tráfico TCP al port $X$, con IP origen $S$ y destino $D$ (o cualesquiera otras condiciones que sea posible seleccionar mediante iptables), marcamos los paquetes en el ingreso con la marca numérica $Z$.
 \begin{lstlisting}
 iptables -t mangle -A PREROUTING -p tcp --dport X -s S -d D -j MARK --set-mark Z
 \end{lstlisting}
@@ -105,8 +113,22 @@ iptables -t mangle -A PREROUTING -p tcp --dport X -s S -d D -j MARK --set-mark Z
 Luego se establecen las reglas que derivan el tráfico con cada marca $Z$ a la tabla de ruteo $P$ que se desee:
 \begin{lstlisting}
 ip rule add fwmark Z table P
-ip route flush cache
 \end{lstlisting}
+
+\subsubsection{Política de balance de carga}
+El paquete iproute2 permite establecer una ruta default con capacidad de \textit{multipath}. Con la configuración adecuada, esta ruta por defecto tomará alternativamente cada uno de los enlaces disponibles, asociando pesos a los enlaces. 
+
+Para cada paquete que se emita, el proceso de ruteo elegirá una ruta entre las disponibles en modo \textit{round-robin}, afectando la elección con determinados pesos. Es decir, si un enlace $A$ tiene peso doble (o triple, etc.) que otro enlace $B$, entonces $A$ será elegido el doble (o triple, etc.) de veces que $B$. 
+
+Sin embargo, una vez que se elija automáticamente una ruta a un destino, ésta quedará en la cache de rutas. Esto es necesario para que la conexión no cambie la dirección IP de origen, pero al mismo tiempo influye en la distribución de tráfico, porque las conexiones siguientes al mismo destino utilizarán la misma ruta hasta que ésta caiga de la cache de rutas o hasta que sea vaciada administrativamente (con \texttt{ip route flush cache}). La consecuencia es que no se logrará equilibrar exactamente el uso de los enlaces en la proporción especificada, sino en forma aproximada. 
+  
+En este ejemplo, $R1$ y $R2$ son las direcciones de los gateways de los enlaces, $IF1$ e $IF2$ las interfaces que conectan al router con ellos, y $W1$ y $W2$ son números que designan los pesos relativos de la carga que se desea hacer circular por cada enlace. Si los enlaces contratados tienen aproximadamente la misma velocidad de transmisión, pesos iguales deben utilizar los enlaces aproximadamente en la misma proporción.
+
+
+\begin{lstlisting}
+ip route add default scope global nexthop via R1 dev IF1 weight W1 nexthop via R2 dev IF2 weight W2
+\end{lstlisting}
+
 
 % 2. En round-robin
 % Existe un módulo de Netfilter que emite circularmente un número módulo N para marcar paquetes. Para cada marca se agrega una regla que dirige los paquetes marcados a una tabla de ruteo determinada. Este módulo debería aplicarse a los paquetes SYN que originan una conexión. De lo contrario se descompone la conversación en los diferentes links, lo cual no sirve para conexiones outbound.
@@ -135,79 +157,23 @@ En el laboratorio se han fijado las direcciones que aparecen en el diagrama de F
 	\item Desde los hosts, hacer ping a un host público de Internet. Ver con tcpdump en las interfaces internas de r1 y de r2 que router  aplica la política por origen correspondiente. 
 	\item Incorporar excepciones (establecer que un determinado host utiliza un acceso diferente que el resto de la red a la que pertenece).
 	\item En \texttt{router} reemplazar el ruteo simple por masquerading, comprobar que la política se sigue aplicando. 
-	\item Modificar la configuración de las reglas de selección de tablas, aplicando una política que derive el tráfico de HTTP por el acceso 1 y todo el otro tráfico por el acceso 2.
+	\item Modificar la configuración de las reglas de selección de tablas, aplicando con \texttt{iptables} una política que derive el tráfico de HTTP por el acceso 1 y todo el otro tráfico por el acceso 2.
 	\item Establecer la excepción de que un determinado servidor HTTP se accederá siempre por el acceso 2. 
+	\item Establecer que el tráfico ICMP debe usar un enlace, y el tráfico TCP el otro.
+	\item Eliminar la regla de ruteo default, y agregar la directiva ip con pesos para balancear carga. Experimentar con transferencias de archivos, ping, etc. 
+	\item Experimentar con pesos diferentes. Ensayar transferencias desde diferentes mirrors de descargas (para que las conexiones sean hacia direcciones diferentes) y observar los bytes traficados por cada interfaz del router según muestra \texttt{ifconfig}. 
+	\item ¿Es posible combinar políticas por clase de tráfico con política de balance de carga? Es decir, ¿se puede establecer una política general de balance de carga pero asociar estáticamente una clase de tráfico con un enlace fijo?
 \end{enumerate}
 
 \subsubsection{Notas del laboratorio}
-Para dar acceso a Internet a las máquinas virtuales del laboratorio que funcionan como routers, es importante dar en la consola \textbf{del host} los comandos que enmascaran el tráfico de salida proveniente de esas máquinas virtuales.
+\begin{itemize}
+	\item Para dar acceso a Internet a las máquinas virtuales del laboratorio que funcionan como routers, es importante dar en la consola \textbf{del host} los comandos que enmascaran el tráfico de salida proveniente de esas máquinas virtuales.
 \begin{lstlisting}
 iptables -t nat -A POSTROUTING -s 172.16.100.0/24 -o eth0 -j MASQUERADE
 iptables -A FORWARD -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 \end{lstlisting}
-
-% 
-% #### Multipathing
-% Usando el keyword weight de ip route
-% 
-% #### Policy Routing con BGP
-% 
-% #### Usando TOS ("idea solamente, no testeado")
-% Usando TC aplicado en la interfaz de entrada, y basándose en que ambos enlaces tengan características diferentes, marcar el TOS de los paquetes. Utilizarlo para rutear por política. Ventaja: aprovechar el análisis dinámico de tráfico hecho por TC, disciplinas de cola, etc. (se puede?).
-% 
-% 
-% 
-% 
-% 
-% #### 1. Respetar rutas de origen
-% Se establecen dos tablas de ruteo por origen, una por cada proveedor. Aquí P1 y P2 son ISPs. 
-% PX_NET es la red del ISP X
-% IFX es la interfaz que da a PX_NET con dirección IPX.
-% RX es un gateway default para cada tabla (next hop sobre la red del ISP X).
-% 
-% 	ip route add $P1_NET dev $IF1 src $IP1 table P1
-% 	ip route add default via $R1 table P1
-% 	
-% 	ip route add $P2_NET dev $IF2 src $IP2 table P2
-% 	ip route add default via $R2 table P2
-% 	
-% 	ip route add $P1_NET dev $IF1 src $IP1
-% 	ip route add $P2_NET dev $IF2 src $IP2
-% 	
-% 	ip route add default via $P1
-% 	# Reglas
-% 	ip rule add from $IP1 table T1
-% 	ip rule add from $IP2 table T2
-% 
-% 
-% 
-% #### Router
-% /etc/iproute2/rt_tables <- tablas de proveedores
-% 10	P1
-% 20	P2
-% 
-% Por cada vínculo a un router del proveedor P, con dirección R sobre la red N, donde mi interfaz es IF y tiene dirección IP:
-% ip route add N dev IF src IP table P
-% ip route add default via R table P
-% ip route add N dev IF src IP
-% 
-% Y ademas
-% ip route add default via algúnR
-% 
-% Por cada host o red con direccion IP que se quiere conducir por prov P
-% 
-% ip rule add from IP table P
-% 
-% 
-% 
-% 
-% #### 2. Balance de carga
-% Para esto se utiliza multipathing, siendo posible ajustar la proporción de tráfico en cada canal mediante los modificadores "weight".
-% 	ip route add default scope global nexthop via $P1 dev $IF1 weight 1 nexthop via $P2 dev $IF2 weight 1
-% 
-% 
-% #### Links
-% http://linux-ip.net/html/adv-multi-internet.html
-% http://lartc.org/howto/lartc.netfilter.html
-% http://lartc.org/howto/lartc.rpdb.multiple-links.html
-% 
+	\item Para efectuar una transferencia de un archivo sin descargarlo en el disco se puede utilizar:
+\begin{lstlisting}
+wget -O - http://servidor/archivo  > /dev/null
+\end{lstlisting}
+\end{itemize}
