@@ -68,7 +68,7 @@
 	pdftitle={Software Libre}, 
 	pdfauthor={Eduardo Grosclaude}, 
 	pdfsubject={Documento de la materia Software Libre}, 
-	pdfkeywords={Software Libre, Tecnicatura en Administración de Sistemas y 		Software Libre, Universidad Nacional del Comahue}
+	pdfkeywords={Software Libre, Tecnicatura en Administración de Sistemas y Software Libre, Universidad Nacional del Comahue}
 	}
 \end{comment}	
 
@@ -128,7 +128,11 @@
 \makeatother
 % \pagestyle{Standard}
 \usepackage{fancyhdr}
-\usepackage{sans}
+%\usepackage{libertine}
+
+\usepackage{lmodern}
+\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+
 
 % \renewcommand*\familydefault{\sfdefault}
 \pagestyle{fancy}
