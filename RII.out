@@ -48,12 +48,12 @@
 \BOOKMARK [2][-]{section*.31}{Ruteo por pol\355ticas}{section.4.2}% 48
 \BOOKMARK [3][-]{section*.32}{Creaci\363n de tablas de ruteo}{section*.31}% 49
 \BOOKMARK [2][-]{section*.33}{Definici\363n de pol\355ticas}{section.4.2}% 50
-\BOOKMARK [3][-]{section*.34}{Pol\355tica seg\372n el origen}{section*.33}% 51
-\BOOKMARK [3][-]{section*.35}{Pol\355tica seg\372n la clase de tr\341fico}{section*.33}% 52
-\BOOKMARK [3][-]{section*.36}{Pol\355tica de balance de carga}{section*.33}% 53
+\BOOKMARK [3][-]{section*.34}{1. Pol\355tica seg\372n el origen}{section*.33}% 51
+\BOOKMARK [3][-]{section*.35}{2. Pol\355tica seg\372n la clase de tr\341fico}{section*.33}% 52
+\BOOKMARK [3][-]{section*.36}{3. Pol\355tica de balance de carga}{section*.33}% 53
 \BOOKMARK [2][-]{section*.37}{Temas de pr\341ctica}{section.4.2}% 54
 \BOOKMARK [3][-]{section*.38}{Laboratorio virtual de Split Access}{section*.37}% 55
-\BOOKMARK [3][-]{section*.39}{Notas del laboratorio}{section*.37}% 56
+\BOOKMARK [3][-]{section*.39}{Notas del Laboratorio}{section*.37}% 56
 \BOOKMARK [0][-]{part.5}{V Anexos}{}% 57
 \BOOKMARK [1][-]{appendix.Alph1}{VLANs en Linux}{part.5}% 58
 \BOOKMARK [2][-]{section*.40}{Creaci\363n de VLAN}{appendix.Alph1}% 59

@@ -49,12 +49,12 @@
 \contentsline {subsection}{Ruteo por pol\IeC {\'\i }ticas}{31}{section*.31}
 \contentsline {subsubsection}{Creaci\IeC {\'o}n de tablas de ruteo}{31}{section*.32}
 \contentsline {subsection}{Definici\IeC {\'o}n de pol\IeC {\'\i }ticas}{32}{section*.33}
-\contentsline {subsubsection}{Pol\IeC {\'\i }tica seg\IeC {\'u}n el origen}{32}{section*.34}
-\contentsline {subsubsection}{Pol\IeC {\'\i }tica seg\IeC {\'u}n la clase de tr\IeC {\'a}fico}{32}{section*.35}
-\contentsline {subsubsection}{Pol\IeC {\'\i }tica de balance de carga}{32}{section*.36}
+\contentsline {subsubsection}{1. Pol\IeC {\'\i }tica seg\IeC {\'u}n el origen}{32}{section*.34}
+\contentsline {subsubsection}{2. Pol\IeC {\'\i }tica seg\IeC {\'u}n la clase de tr\IeC {\'a}fico}{32}{section*.35}
+\contentsline {subsubsection}{3. Pol\IeC {\'\i }tica de balance de carga}{32}{section*.36}
 \contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{33}{section*.37}
 \contentsline {subsubsection}{Laboratorio virtual de Split Access}{33}{section*.38}
-\contentsline {subsubsection}{Notas del laboratorio}{34}{section*.39}
+\contentsline {subsubsection}{Notas del Laboratorio}{34}{section*.39}
 \contentsline {part}{V\hspace {1em}Anexos}{35}{part.5}
 \contentsline {section}{\numberline {A}VLANs en Linux}{35}{appendix.Alph1}
 \contentsline {subsection}{Creaci\IeC {\'o}n de VLAN}{35}{section*.40}

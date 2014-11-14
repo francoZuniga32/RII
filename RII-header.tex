@@ -204,5 +204,16 @@
 \end{minipage}
 }
 
+% \newcommand{\recuadro2}[1]{
+% \fcolorbox{black}{grey}{
+% \parbox[t]{1.0\linewidth}{ \vspace*{0.4cm}#1\vspace*{0.4cm} } 
+% }
+% 
+\usepackage{sectsty}
+%\usepackage[compact]{titlesec} 
+\definecolor{bl}{rgb}{0.0,0.2,0.6} 
+\allsectionsfont{\color{bl}\scshape\selectfont}
+
+
 \newcommand{\code}[1]{\lstinline$#1$}
 %\newcommand{\code}[1]{\begin{verbatim}{#1}\end{verbatim}}

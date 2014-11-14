@@ -34,7 +34,7 @@ Cada tabla tiene una aplicación específica:
 	\item[Tabla \texttt{security}] Implementa control de acceso obligatorio y permite separar las acciones que puede tomar el usuario de las que impone el sistema.
 \end{description}
 
-El comando \texttt{iptables} diferencia entre paquetes \textbf{destinados al host} (la dirección IP destino del paquete es alguna de las propias), \textbf{originados en el host} (la dirección origen es una dirección propia), o \textbf{en tránsito} (ni la dirección origen ni la dirección destino son propias). Este último caso es el que se presenta habitualmente en un router. 
+Netfilter diferencia entre paquetes \textbf{destinados al host} (la dirección IP destino del paquete es alguna de las propias), \textbf{originados en el host} (la dirección origen es una dirección propia), o \textbf{en tránsito} (ni la dirección origen ni la dirección destino son propias). Este último caso es el que se presenta habitualmente en un router. 
 
 \begin{description}
 	\item[Ingreso] A todos los paquetes ingresantes, antes de que el proceso de ruteo determine si son o no dirigidos al host, se les aplican las reglas contenidas en las tablas \texttt{mangle} y \texttt{nat} de la cadena \texttt{PREROUTING}.
@@ -63,7 +63,9 @@ El comando \texttt{iptables} diferencia entre paquetes \textbf{destinados al hos
 \figura[11]{iptables-forward}{Recorrido de un paquete reenviado por el host}{iptables-forward.pdf}
 
 \subsection{Ruteo por políticas}
-Un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información contenida en una tabla de ruteo o reenvío. Normalmente la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. Esta técnica permite asociar una tabla de ruteo distinta con cada acceso en el escenario de Split Access. La decisión de qué tráfico utilizará cada tabla de ruteo se puede configurar en varias formas. 
+Un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información contenida en una tabla de ruteo o reenvío. Habitualmente la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. Ante un paquete nuevo que llega, el proceso de ruteo buscará reglas para seleccionar una tabla de ruteo, y sólo si no las encuentra, aplicará las reglas en la tabla \texttt{main}. En particular, una regla de ruteo default en una tabla específica tendrá prioridad sobre la regla de ruteo default habitual. 
+
+Con el comando \texttt{ip} es posible asociar una tabla de ruteo distinta con cada acceso en el escenario de Split Access. La decisión de qué tráfico utilizará cada tabla de ruteo se puede configurar en varias formas. 
 
 \subsubsection{Creación de tablas de ruteo}
 El paquete \texttt{iproute2} identifica las tablas con números, pero es más cómodo para el administrador establecer unos nombres simbólicos en el archivo \texttt{/etc/iproute2/rt\_tables}. Simplemente se eligen números y nombres arbitrarios, que no colisionen con los ya reservados. Los nombres servirán posteriormente para referirse a las diferentes tablas de ruteo usando el comando \texttt{ip}, y pueden ser los nombres de los ISP o proveedores de acceso. Una vez creados los nombres simbólicos, por cada acceso a Internet disponible es necesario identificar los siguientes datos.
@@ -89,9 +91,9 @@ ip route add N dev IF src IP
 \end{enumerate} 
 
 \subsection{Definición de políticas}
-A continuación se establecen las reglas por las cuales cada host, cuyo tráfico se va a reenviar, utilizará una u otra tabla de ruteo. 
+A continuación se establecen las reglas por las cuales cada host, cuyo tráfico se va a reenviar, utilizará una u otra tabla de ruteo. Consideraremos tres diferentes formas de diseñar y establecer las políticas. 
 
-\subsubsection{Política según el origen}
+\subsubsection{1. Política según el origen}
 La idea es simplemente separar los hosts de las redes locales en grupos, estáticamente, por cualquier criterio conveniente; y derivar el tráfico de cada grupo por rutas diferentes y fijas. 
 
 Por cada host o red con dirección $IP$ que se quiere conducir por el acceso $P$:
@@ -99,7 +101,7 @@ Por cada host o red con dirección $IP$ que se quiere conducir por el acceso $P$
 ip rule add from IP table P 
 \end{lstlisting}
 
-\subsubsection{Política según la clase de tráfico}
+\subsubsection{2. Política según la clase de tráfico}
 
 Utilizando \texttt{iptables} para manipular la tabla \texttt{mangle} de Netfilter, podemos crear \textbf{marcas} numéricas, que acompañan a los paquetes en su tránsito por el kernel. Estas marcas son reconocidas por el proceso de ruteo, y sirven para definir la tabla de ruteo a utilizar para cada paquete.
 
@@ -115,7 +117,7 @@ Luego se establecen las reglas que derivan el tráfico con cada marca $Z$ a la t
 ip rule add fwmark Z table P
 \end{lstlisting}
 
-\subsubsection{Política de balance de carga}
+\subsubsection{3. Política de balance de carga}
 El paquete iproute2 permite establecer una ruta default con capacidad de \textit{multipath}. Con la configuración adecuada, esta ruta por defecto tomará alternativamente cada uno de los enlaces disponibles, asociando pesos a los enlaces. 
 
 Para cada paquete que se emita, el proceso de ruteo elegirá una ruta entre las disponibles en modo \textit{round-robin}, afectando la elección con determinados pesos. Es decir, si un enlace $A$ tiene peso doble (o triple, etc.) que otro enlace $B$, entonces $A$ será elegido el doble (o triple, etc.) de veces que $B$. 
@@ -140,32 +142,44 @@ ip route add default scope global nexthop via R1 dev IF1 weight W1 nexthop via R
 
 \subsection{Temas de práctica}
 \subsubsection{Laboratorio virtual de Split Access}
-La organización tiene dos redes locales o VLANs, LAN1 y LAN2, conectadas por un router. Se ha contratado acceso a Internet de dos proveedores diferentes. Ambos han provisto sus routers r1 y r2 con una dirección interna privada. El problema consiste en poder ofrecer a las redes locales de la organización acceso por uno u otro de los servicios, en la forma más flexible posible. 
+La organización tiene dos redes locales o VLANs, LAN1 y LAN2, conectadas por un router. Se ha contratado acceso a Internet de dos proveedores diferentes. Ambos han provisto sus routers r1 y r2 con una dirección interna privada. El problema consiste en poder ofrecer a las redes locales de la organización acceso por uno u otro de los servicios, en la forma más flexible posible.
 
 \figura[10]{splitlab}{Esquema del laboratorio virtual de Split Access}{origen.png}
 
-En el laboratorio se han fijado las direcciones que aparecen en el diagrama de Fig. \ref{fig:splitlab}. Todas las demás deben ser configuradas. Además se pide establecer ruteo por origen de modo que LAN1 acceda a Internet por r1 y LAN2 por r2.
-\begin{enumerate}
+En el laboratorio se han fijado las direcciones que aparecen en el diagrama de Fig. \ref{fig:splitlab}. Todas las demás deben ser configuradas con direcciones a elección. 
+\begin{enumerate} 
+	\item Establecer ruteo estático según la red de origen.
+	\begin{itemize}
 	\item Comprobar que r1 y r2 tienen acceso a Internet. 
 	\item Dar direcciones a las redes locales y establecer ruta por defecto para los hosts. 
-	\item En r1 y r2, establecer rutas hacia las redes locales a través de \texttt{router}. 
-	\item Comprobar que los hosts tienen ruta hacia las interfaces internas de r1 y r2. 
-	\item En \texttt{router}, establecer una tabla de ruteo por cada proveedor en \texttt{/etc/iproute2/rt\_tables}. 
-	\item Por cada proveedor, preparar su tabla de ruteo con regla default y especificacion de IP de salida. 
+	\item En \texttt{router} reemplazar el ruteo simple por \textit{masquerading}.	
+	\item Comprobar que los hosts pc1 a pc4 tienen ruta hacia las interfaces internas de r1 y r2. 
 	\item Especificar en \texttt{router} un gateway default en la tabla main. 
+	\item Comprobar que los hosts pc1 a pc4 tienen acceso a sitios de Internet. 
+	\item Por cada proveedor, establecer en \texttt{router} una tabla de ruteo en \texttt{/etc/iproute2/rt\_tables}. Configurar cada tabla de ruteo con regla default y especificación de IP de salida. 
 	\item Agregar reglas de ruteo por origen estáticas por cada red local. 
-	\item Desde los hosts, hacer ping a un host público de Internet. Ver con tcpdump en las interfaces internas de r1 y de r2 que router  aplica la política por origen correspondiente. 
-	\item Incorporar excepciones (establecer que un determinado host utiliza un acceso diferente que el resto de la red a la que pertenece).
-	\item En \texttt{router} reemplazar el ruteo simple por masquerading, comprobar que la política se sigue aplicando. 
-	\item Modificar la configuración de las reglas de selección de tablas, aplicando con \texttt{iptables} una política que derive el tráfico de HTTP por el acceso 1 y todo el otro tráfico por el acceso 2.
-	\item Establecer la excepción de que un determinado servidor HTTP se accederá siempre por el acceso 2. 
-	\item Establecer que el tráfico ICMP debe usar un enlace, y el tráfico TCP el otro.
-	\item Eliminar la regla de ruteo default, y agregar la directiva ip con pesos para balancear carga. Experimentar con transferencias de archivos, ping, etc. 
-	\item Experimentar con pesos diferentes. Ensayar transferencias desde diferentes mirrors de descargas (para que las conexiones sean hacia direcciones diferentes) y observar los bytes traficados por cada interfaz del router según muestra \texttt{ifconfig}. 
-	\item ¿Es posible combinar políticas por clase de tráfico con política de balance de carga? Es decir, ¿se puede establecer una política general de balance de carga pero asociar estáticamente una clase de tráfico con un enlace fijo?
+	\item Desde los hosts, hacer ping a un host público de Internet. Ver con tcpdump en las interfaces internas de r1 y de r2 que \texttt{router}  aplica la política por origen correspondiente. 
+	\end{itemize}
+	\item Incorporar excepciones.
+	\begin{itemize}
+		\item Establecer que un determinado host utiliza un acceso diferente que el resto de la red a la que pertenece.	
+		\item Modificar la configuración de las reglas de selección de tablas, aplicando con \texttt{iptables} una política que derive el tráfico de HTTP por el acceso 1 y todo otro tráfico por el acceso 2.
+		\item Establecer la excepción de que un determinado servidor HTTP se accederá siempre por el acceso 2. 
+		\item Establecer que el tráfico ICMP debe usar un enlace, y el tráfico TCP el otro.
+	\end{itemize}
+	\item Eliminar la regla de ruteo default, y agregar la directiva ip con pesos para balancear carga. 
+	\begin{itemize}
+		\item Experimentar con transferencias de archivos, ping, etc. 
+		\item Experimentar con pesos diferentes. Ensayar transferencias desde diferentes mirrors de descargas (para que las conexiones sean hacia direcciones diferentes) y observar los bytes traficados por cada interfaz del router según muestra \texttt{ifconfig}. 
+		\item ¿Es posible combinar políticas por clase de tráfico con política de balance de carga? Es decir, ¿se puede establecer una política general de balance de carga, pero además asociar estáticamente una clase particular de tráfico con un enlace fijo?
+	\end{itemize}
+	\item En \texttt{router}, implementar scripts o funciones que conviertan el acceso a Internet en tolerante a fallos de ISP. Paso 1: pensar el problema. Paso 2 (opcional): ver Sugerencias en las Notas del Laboratorio.
 \end{enumerate}
+	
 
-\subsubsection{Notas del laboratorio}
+	
+
+\subsubsection{Notas del Laboratorio}
 \begin{itemize}
 	\item Para dar acceso a Internet a las máquinas virtuales del laboratorio que funcionan como routers, es importante dar en la consola \textbf{del host} los comandos que enmascaran el tráfico de salida proveniente de esas máquinas virtuales.
 \begin{lstlisting}
@@ -176,4 +190,14 @@ iptables -A FORWARD -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT
 \begin{lstlisting}
 wget -O - http://servidor/archivo  > /dev/null
 \end{lstlisting}
+\item Sugerencias de análisis para el problema de Tolerancia a Fallos
+	\begin{itemize}
+		\item \texttt{testping}: Monitorea periódicamente el alcance mediante ping a una dirección IP testigo. Devuelve alcanzable o no alcanzable, luego de una secuencia de $n$ pings con $m$ exitosos o fallidos. Cantidades $n$ y $m$ configurables. Argumentos: dirección IP testigo, n, m. 
+		\item \texttt{monitorear}: Ciclo infinito con intervalo configurable que ejecuta a \texttt{testping}. Recibe como argumentos los nombres de dos scripts o funciones, el intervalo, la dirección IP testigo, n, m. Reconoce los eventos resultantes de \texttt{testping} y actúa en consecuencia:
+		\begin{itemize}
+			\item Evento de dirección testigo inalcanzable $\rightarrow$ ejecuta el primer script.
+			\item Evento de dirección testigo que vuelve a ser alcanzable $\rightarrow$ ejecuta el segundo script.
+		\end{itemize}
+		\item \texttt{toleranciaAFallos}: Lanzado en dos instancias, una para ISP A, y otra para ISP B. Ejecuta a \texttt{monitorear} dándole como argumentos los nombres de dos funciones o scripts que contienen las reglas de ruteo para implementar el acceso por uno u otro proveedor. 
+	\end{itemize}
 \end{itemize}
