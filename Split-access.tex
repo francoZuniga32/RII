@@ -54,7 +54,8 @@ Netfilter diferencia entre paquetes \textbf{destinados al host} (la dirección I
 \texttt{ip route list table T}		& Rutas, tabla T\\
 \texttt{ip route flush table main}	& Borrar rutas de tabla principal\\
 \texttt{ip route flush cache}			& Borrar cache de rutas\\
-\texttt{ip rule list}					& Consultar reglas de asignación de tablas\\
+\texttt{ip rule add from 10.0.0.0/24 table T}	& Agregar regla de asignación de tablas\\
+\texttt{ip rule list}					& Consultar reglas de asignación\\
 }
  
  
@@ -101,6 +102,33 @@ Por cada host o red con dirección $IP$ que se quiere conducir por el acceso $P$
 ip rule add from IP table P 
 \end{lstlisting}
 
+\recuadro{Las reglas se almacenan en una lista en memoria y se aplican en el orden en que están almacenadas. La primera regla cuya cláusula \texttt{from} coincide con el origen del tráfico decide la tabla que se aplicará. 
+
+Sin embargo, cada regla introducida se inserta al principio de la lista, de forma que las últimas reglas introducidas tienen prioridad sobre las anteriores.}
+
+En este ejemplo, se desea que la red 10.0.0.0/24 en general use la tabla T1; \textbf{pero} la mitad superior de esos hosts (los que tienen último octeto mayor o igual que 128) deben usar la T2; \textbf{excepto}, de éstos, el host 129, que usará la tabla T1. 
+
+\begin{itemize}
+	\item Al insertar las reglas: 
+\begin{lstlisting}
+# ip rule add from 10.0.0.0/24 table T1
+# ip rule add from 10.0.0.128/25 table T2
+# ip rule add from 10.0.0.129/32 table T1
+\end{lstlisting}
+	\item En memoria:
+	\begin{lstlisting}
+# ip rule show
+0:	from all lookup local 
+32763:	from 10.0.0.129 lookup T1
+32764:	from 10.0.0.128/25 lookup T2 
+32765:	from 10.0.0.0/24 lookup T1 
+32766:	from all lookup main 
+32767:	from all lookup default 
+\end{lstlisting}
+\end{itemize}
+
+Las reglas se insertarán de lo general a lo particular, para que, al aplicarlas, las que se encuentren primero en la lista en memoria sean las más específicas. 
+ 
 \subsubsection{2. Política según la clase de tráfico}
 
 Utilizando \texttt{iptables} para manipular la tabla \texttt{mangle} de Netfilter, podemos crear \textbf{marcas} numéricas, que acompañan a los paquetes en su tránsito por el kernel. Estas marcas son reconocidas por el proceso de ruteo, y sirven para definir la tabla de ruteo a utilizar para cada paquete.

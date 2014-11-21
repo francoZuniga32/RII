@@ -16,6 +16,12 @@
 \usepackage{appendix}
 \usepackage{listings}
 \usepackage{wasysym}
+%\usepackage[centering,width=8.5in,height=11in]{geometry}
+\usepackage[centering,a4paper]{geometry}
+\usepackage{pstricks}
+\usepackage{tikz}
+\usetikzlibrary{calc, backgrounds}
+\usepackage{pdfpages}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -196,12 +202,12 @@
 
 \usepackage{mdframed}
 
-\newcommand{\recuadro}[1]{
-\begin{minipage}[c]{0.84\textwidth}
+\newcommand{\recuadro}[1]{\vspace*{0.2cm}
+\begin{minipage}[l]{0.84\textwidth}
 \begin{mdframed}
 #1
 \end{mdframed}
-\end{minipage}
+\end{minipage}\vspace*{0.4cm}
 }
 
 % \newcommand{\recuadro2}[1]{

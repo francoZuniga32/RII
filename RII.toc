@@ -41,35 +41,35 @@
 \contentsline {subsubsection}{Configuraci\IeC {\'o}n con MII}{25}{section*.24}
 \contentsline {subsubsection}{Configuraci\IeC {\'o}n con ARP}{25}{section*.25}
 \contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{26}{section*.26}
-\contentsline {subsubsection}{Notas sobre el laboratorio}{26}{section*.27}
+\contentsline {subsubsection}{Notas sobre el laboratorio}{27}{section*.27}
 \contentsline {subsection}{Referencias}{28}{section*.28}
 \contentsline {section}{\numberline {2}Balance de Carga}{28}{section.4.2}
 \contentsline {subsection}{Paquete iproute2}{29}{section*.29}
 \contentsline {subsection}{Comando iptables}{29}{section*.30}
-\contentsline {subsection}{Ruteo por pol\IeC {\'\i }ticas}{31}{section*.31}
-\contentsline {subsubsection}{Creaci\IeC {\'o}n de tablas de ruteo}{31}{section*.32}
+\contentsline {subsection}{Ruteo por pol\IeC {\'\i }ticas}{30}{section*.31}
+\contentsline {subsubsection}{Creaci\IeC {\'o}n de tablas de ruteo}{32}{section*.32}
 \contentsline {subsection}{Definici\IeC {\'o}n de pol\IeC {\'\i }ticas}{32}{section*.33}
 \contentsline {subsubsection}{1. Pol\IeC {\'\i }tica seg\IeC {\'u}n el origen}{32}{section*.34}
-\contentsline {subsubsection}{2. Pol\IeC {\'\i }tica seg\IeC {\'u}n la clase de tr\IeC {\'a}fico}{32}{section*.35}
-\contentsline {subsubsection}{3. Pol\IeC {\'\i }tica de balance de carga}{32}{section*.36}
-\contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{33}{section*.37}
-\contentsline {subsubsection}{Laboratorio virtual de Split Access}{33}{section*.38}
-\contentsline {subsubsection}{Notas del Laboratorio}{34}{section*.39}
-\contentsline {part}{V\hspace {1em}Anexos}{35}{part.5}
-\contentsline {section}{\numberline {A}VLANs en Linux}{35}{appendix.Alph1}
-\contentsline {subsection}{Creaci\IeC {\'o}n de VLAN}{35}{section*.40}
-\contentsline {subsection}{Consultar el VLAN ID de una interfaz}{35}{section*.41}
-\contentsline {subsection}{Dar una direcci\IeC {\'o}n IP}{35}{section*.42}
-\contentsline {subsection}{Desactivar administrativamente una interfaz}{35}{section*.43}
-\contentsline {subsection}{Eliminar una interfaz}{35}{section*.44}
-\contentsline {section}{\numberline {B}Bridging en Linux}{35}{appendix.Alph2}
-\contentsline {subsection}{Interfaz para creaci\IeC {\'o}n e inspecci\IeC {\'o}n de bridges}{35}{section*.45}
-\contentsline {subsection}{Configuraci\IeC {\'o}n est\IeC {\'a}tica de bridges}{36}{section*.46}
-\contentsline {subsubsection}{Configuraci\IeC {\'o}n en RedHat, CentOS, derivados}{36}{section*.47}
-\contentsline {subsubsection}{Configuraci\IeC {\'o}n en Debian, Ubuntu, derivados}{36}{section*.48}
-\contentsline {section}{\numberline {C}Ejemplos de configuraci\IeC {\'o}n OpenVPN}{36}{appendix.Alph3}
-\contentsline {subsection}{Servidor}{36}{section*.49}
-\contentsline {subsection}{Cliente}{42}{section*.50}
-\contentsline {section}{\numberline {D}Scripts para OpenVPN en modo bridge}{44}{appendix.Alph4}
-\contentsline {subsection}{Archivo sample-scripts/bridge-start}{44}{section*.51}
-\contentsline {subsection}{Archivo sample-scripts/bridge-stop}{45}{section*.52}
+\contentsline {subsubsection}{2. Pol\IeC {\'\i }tica seg\IeC {\'u}n la clase de tr\IeC {\'a}fico}{33}{section*.35}
+\contentsline {subsubsection}{3. Pol\IeC {\'\i }tica de balance de carga}{33}{section*.36}
+\contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{34}{section*.37}
+\contentsline {subsubsection}{Laboratorio virtual de Split Access}{34}{section*.38}
+\contentsline {subsubsection}{Notas del Laboratorio}{35}{section*.39}
+\contentsline {part}{V\hspace {1em}Anexos}{36}{part.5}
+\contentsline {section}{\numberline {A}VLANs en Linux}{36}{appendix.Alph1}
+\contentsline {subsection}{Creaci\IeC {\'o}n de VLAN}{36}{section*.40}
+\contentsline {subsection}{Consultar el VLAN ID de una interfaz}{36}{section*.41}
+\contentsline {subsection}{Dar una direcci\IeC {\'o}n IP}{36}{section*.42}
+\contentsline {subsection}{Desactivar administrativamente una interfaz}{36}{section*.43}
+\contentsline {subsection}{Eliminar una interfaz}{36}{section*.44}
+\contentsline {section}{\numberline {B}Bridging en Linux}{36}{appendix.Alph2}
+\contentsline {subsection}{Interfaz para creaci\IeC {\'o}n e inspecci\IeC {\'o}n de bridges}{36}{section*.45}
+\contentsline {subsection}{Configuraci\IeC {\'o}n est\IeC {\'a}tica de bridges}{37}{section*.46}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en RedHat, CentOS, derivados}{37}{section*.47}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en Debian, Ubuntu, derivados}{37}{section*.48}
+\contentsline {section}{\numberline {C}Ejemplos de configuraci\IeC {\'o}n OpenVPN}{37}{appendix.Alph3}
+\contentsline {subsection}{Servidor}{37}{section*.49}
+\contentsline {subsection}{Cliente}{43}{section*.50}
+\contentsline {section}{\numberline {D}Scripts para OpenVPN en modo bridge}{45}{appendix.Alph4}
+\contentsline {subsection}{Archivo sample-scripts/bridge-start}{45}{section*.51}
+\contentsline {subsection}{Archivo sample-scripts/bridge-stop}{46}{section*.52}
