@@ -64,7 +64,11 @@ Netfilter diferencia entre paquetes \textbf{destinados al host} (la dirección I
 \figura[11]{iptables-forward}{Recorrido de un paquete reenviado por el host}{iptables-forward.pdf}
 
 \subsection{Ruteo por políticas}
-Un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información contenida en una tabla de ruteo o reenvío. Habitualmente la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. Ante un paquete nuevo que llega, el proceso de ruteo buscará reglas para seleccionar una tabla de ruteo, y sólo si no las encuentra, aplicará las reglas en la tabla \texttt{main}. En particular, una regla de ruteo default en una tabla específica tendrá prioridad sobre la regla de ruteo default habitual. 
+Un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información de rutas contenida en una tabla de ruteo o reenvío. Habitualmente, la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. 
+
+Una vez seleccionada una tabla de ruteo, el kernel utilizará las rutas en dicha tabla para determinar qué interfaz de salida le corresponde a un paquete. Para cada tabla de ruteo se aplica siempre el mecanismo clásico de examinar la dirección destino del paquete y localizar en esa tabla el prefijo coincidente más largo. 
+
+Ante cada paquete nuevo que llega, el proceso de ruteo buscará primero reglas para seleccionar una tabla de ruteo, y sólo si no las encuentra, aplicará las rutas en la tabla \texttt{main}. En particular, una ruta default en una tabla específica tendrá prioridad sobre la ruta default habitual. 
 
 Con el comando \texttt{ip} es posible asociar una tabla de ruteo distinta con cada acceso en el escenario de Split Access. La decisión de qué tráfico utilizará cada tabla de ruteo se puede configurar en varias formas. 
 
@@ -102,7 +106,7 @@ Por cada host o red con dirección $IP$ que se quiere conducir por el acceso $P$
 ip rule add from IP table P 
 \end{lstlisting}
 
-\recuadro{Las reglas se almacenan en una lista en memoria y se aplican en el orden en que están almacenadas. La primera regla cuya cláusula \texttt{from} coincide con el origen del tráfico decide la tabla que se aplicará. 
+\recuadro{Las reglas se almacenan en una lista en memoria y se aplican en el orden en que están almacenadas. La primera regla cuya cláusula \texttt{from} coincide con el origen del tráfico determina la tabla que se aplicará. 
 
 Sin embargo, cada regla introducida se inserta al principio de la lista, de forma que las últimas reglas introducidas tienen prioridad sobre las anteriores.}
 
@@ -131,7 +135,7 @@ Las reglas se insertarán de lo general a lo particular, para que, al aplicarlas
  
 \subsubsection{2. Política según la clase de tráfico}
 
-Utilizando \texttt{iptables} para manipular la tabla \texttt{mangle} de Netfilter, podemos crear \textbf{marcas} numéricas, que acompañan a los paquetes en su tránsito por el kernel. Estas marcas son reconocidas por el proceso de ruteo, y sirven para definir la tabla de ruteo a utilizar para cada paquete.
+Utilizando \texttt{iptables} para manipular la tabla \texttt{mangle} de Netfilter, podemos crear \textbf{marcas} numéricas, que acompañan a los paquetes en su tránsito por el kernel. Estas marcas son reconocidas por el proceso de ruteo, y sirven, entre otras cosas, para determinar la tabla de ruteo a utilizar para cada paquete. Las marcas existen únicamente durante el viaje de los paquetes dentro del sistema, y al ser emitido el paquete por su interfaz de salida desaparecen. 
 
 Marcando los paquetes podemos definir cualquier política basada en las características que puede distinguir iptables en ellos (direcciones IP origen o destino, protocolo, etc.). Cada conjunto de valores de estas características definirá una clase de tráfico.
 
@@ -188,12 +192,15 @@ En el laboratorio se han fijado las direcciones que aparecen en el diagrama de F
 	\item Agregar reglas de ruteo por origen estáticas por cada red local. 
 	\item Desde los hosts, hacer ping a un host público de Internet. Ver con tcpdump en las interfaces internas de r1 y de r2 que \texttt{router}  aplica la política por origen correspondiente. 
 	\end{itemize}
+	\item Establecer políticas por clase de tráfico.
+	\begin{itemize}
+		\item Modificar la configuración de las reglas de selección de tablas, aplicando con \texttt{iptables} una política que derive el tráfico de HTTP por el acceso 1 y todo otro tráfico por el acceso 2.
+		\item Establecer que el tráfico ICMP debe usar un enlace, y el tráfico TCP el otro.
+	\end{itemize}
 	\item Incorporar excepciones.
 	\begin{itemize}
-		\item Establecer que un determinado host utiliza un acceso diferente que el resto de la red a la que pertenece.	
-		\item Modificar la configuración de las reglas de selección de tablas, aplicando con \texttt{iptables} una política que derive el tráfico de HTTP por el acceso 1 y todo otro tráfico por el acceso 2.
-		\item Establecer la excepción de que un determinado servidor HTTP se accederá siempre por el acceso 2. 
-		\item Establecer que el tráfico ICMP debe usar un enlace, y el tráfico TCP el otro.
+		\item Establecer la excepción de que un determinado host de la organización utilizará un acceso diferente que el resto de la red a la que pertenece.	
+		\item Establecer la excepción de que un determinado servidor HTTP, externo a la organización, se accederá siempre por el acceso 2. ¿Cómo se diferencia este caso del anterior? 
 	\end{itemize}
 	\item Eliminar la regla de ruteo default, y agregar la directiva ip con pesos para balancear carga. 
 	\begin{itemize}

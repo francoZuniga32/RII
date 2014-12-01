@@ -37,8 +37,8 @@ Los modos que ofrecen tolerancia a fallos necesitan algún mecanismo para detect
 Para la detección de eventos hay dos opciones posibles.
 
 \begin{enumerate}
-		\item MII (Medium Independent Interface). Especificación que cumplen la mayoría de las NICs modernas, que presenta datos de link activo o inactivo en forma independiente de la implementación del medio conectado. Se debe especificar los parámetros \lstinline$bond-miimon$ (intervalo de revisión del estado del link), \lstinline$bond-downdelay$ (tiempo desde que se detecta fallo hasta que se da de baja la interfaz) y \lstinline$bond-updelay$ (tiempo para volver a poner en servicio la interfaz una vez que vuelve el link a estado activo). 
-		\item ARP. Se establece por configuración una cantidad de direcciones IP de control en la red local, y el bond emite consultas ARP periódicas a estas direcciones. Cuando se deja de recibir respuesta por la interfaz activa durante una cantidad de tiempo, configurable, se considera que ha caído el enlace y se realiza el failover. Se deben configurar los parámetros \lstinline$bond-arp-interval$ (intervalo entre emisión de ARP) y \lstinline$bond-arp-ip-target$ (lista de IPs confiables).
+		\item \textbf{MII (Medium Independent Interface)}. Especificación que cumplen la mayoría de las NICs modernas, que presenta datos de link activo o inactivo en forma independiente de la implementación del medio conectado. Se deben configurar los parámetros \lstinline$bond-miimon$ (intervalo de revisión del estado del link), \lstinline$bond-downdelay$ (tiempo desde que se detecta fallo hasta que se da de baja la interfaz) y \lstinline$bond-updelay$ (tiempo para volver a poner en servicio la interfaz una vez que vuelve el link a estado activo). 
+		\item \textbf{ARP}. Se establece por configuración una cantidad de direcciones IP de control en la red local, y las interfaces esclavas del bond emiten consultas ARP periódicas a estas direcciones. Cuando un bond advierte que una de sus interfaces esclavas no ha emitido tráfico en una cantidad de tiempo dado, la considera caída. Se deben configurar los parámetros \lstinline$bond-arp-interval$ (intervalo entre emisión de ARP) y \lstinline$bond-arp-ip-target$ (lista de IPs confiables). Este control permite detectar modos de fallo de la interfaz, pero no del enlace o del peer, por lo cual se agrega un mecanismo más: si además se configura el parámetro \texttt{bond-arp-validate}, cuando se deja de recibir respuesta al tráfico ARP por la interfaz activa durante una cantidad de tiempo, configurable, se considera que ha caído el enlace. 
 \end{enumerate}
   
 \subsection {Configuración en Debian}
@@ -100,7 +100,7 @@ iface bond0 inet static
 
 \subsection{Temas de práctica}
 
-La topología de la Fig. \ref{fig:bonding} comprende un nodo llamado switch, y tres nodos conectados a él. El switch tiene cinco interfaces, cada una conectada a un enlace diferente. Dos de los nodos tienen dos interfaces cada uno, y el tercero una sola. Cada interfaz de los nodos host1 a host3 está conectada a su propio enlace. Los enlaces se denominan, de izquierda a derecha en el diagrama, link1 a link5. 
+La topología de la Fig. \ref{fig:bonding} comprende un nodo llamado \textbf{switch}, y tres nodos conectados a él. El switch tiene cinco interfaces, cada una conectada a un enlace diferente. Dos de los nodos tienen dos interfaces cada uno, y el tercero una sola. Cada interfaz de los nodos host1 a host3 está conectada a su propio enlace. Los enlaces se denominan, de izquierda a derecha en el diagrama, link1 a link5. 
 
 \figura[10]{bonding}{Configuración del laboratorio de bonding}{bonding.png}
 
@@ -112,11 +112,11 @@ La topología de la Fig. \ref{fig:bonding} comprende un nodo llamado switch, y t
 
 
 \begin{enumerate}
-	\item Configure en forma estática la red del nodo denominado switch implementando un bridge que esclavice a todas sus interfaces. Dé direcciones en el mismo dominio de broadcast a los demás nodos. Compruebe llegada por ping. Observe el tráfico que pasa por las interfaces del switch con el comando tcpdump -i ethX. El nodo virtual switch, ¿resulta un buen modelo de un switch de hardware? ¿Necesita tener una dirección IP? 
-	\item En los nodos host1 y host2, Instale el módulo que permite esclavizar las interfaces con \code{dpkg -i /hostlab/ifenslave-...deb}.
-	\item Configure el nodo host1 indicando en /etc/modules que debe ser cargado el módulo bonding al arranque. Configure la red del mismo nodo, ligando ambas interfaces mediante un bond en modo active-backup. ¿Qué capacidades tiene este modo?
+	\item Configure en forma estática la red del nodo denominado switch implementando un bridge que esclavice a todas sus interfaces. Dé direcciones en el mismo dominio de broadcast a los demás nodos. Compruebe llegada por ping. Observe el tráfico que pasa por las interfaces del switch con el comando \texttt{tcpdump -i ethX}. El nodo virtual \textbf{switch}, ¿resulta un buen modelo de un switch de hardware? ¿Necesita tener una dirección IP? 
+	\item En los nodos host1 y host2, instale el módulo que permite esclavizar las interfaces con \code{dpkg -i /hostlab/ifenslave-...deb}.
+	\item Configure el nodo host1 indicando en \texttt{/etc/modules} que debe ser cargado el módulo \texttt{bonding} al arranque. Configure la red del mismo nodo, ligando ambas interfaces mediante un bond en modo \textit{active-backup}. ¿Qué capacidades tiene este modo?
 	\item Mantenga un ping desde host3 a host1, observando el tráfico por las interfaces del switch. Simule la caída del vínculo con host1.  ¿Se interrumpe el ping? ¿Sigue pasando el tráfico por las mismas interfaces?
-	\item Configure el nodo host2 del mismo modo que en el punto 3, pero con el bond en modo balance-rr. ¿Qué capacidades tiene este modo?
+	\item Configure el nodo host2 del mismo modo que en el punto 3, pero con el bond en modo \textit{balance-rr}. ¿Qué capacidades tiene este modo?
 	\item Ejecute el mismo experimento del punto 4 pero desde host3 a host2. 
 \end{enumerate}
 
@@ -135,7 +135,7 @@ La topología de la Fig. \ref{fig:bonding} comprende un nodo llamado switch, y t
 	options bonding mode=1 arp_interval=1000 arp_ip_target=10.1.1.1
 	\end{lstlisting}
 (detección por ARP).
-	\item Al probar sistemas de Alta Disponibilidad, una parte muy importante es la inyección de fallas. La tecnología de virtualización utilizada para el laboratorio no permite replicar correctamente el evento de caída de interfaz, enlace o peer, cuando se usa la técnica de detección de fallas MII (la interfaz aparece siempre conectada). La mejor aproximación que hemos logrado a la simulación de la falla es cuando se elige detección de fallas por ARP.
+	\item Al probar sistemas de Alta Disponibilidad, una parte muy importante es la inyección de fallas. En este laboratorio, cuando se usa la técnica de detección de fallas \textbf{MII}, la tecnología de virtualización utilizada no permite replicar correctamente los eventos de caída de la interfaz, el enlace o el \textit{peer} (la interfaz aparece siempre conectada)\footnote{Debido a que el kernel UML utilizado en Netkit no implementa MII.}. La mejor aproximación que hemos logrado a la simulación de la falla es cuando se elige detección de fallas por \textbf{ARP}.
 	\item Para simular la caída de un vínculo se sugiere detener el proceso UML que simula el enlace. Logramos esto buscando entre todos los procesos \code{uml_switch} de la máquina host aquel relacionado con el nombre del enlace. Por ejemplo, para simular la caída del link1:
 	\begin{lstlisting}
 # ps f | grep uml_switch
