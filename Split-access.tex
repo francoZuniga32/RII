@@ -22,9 +22,12 @@ Las principales herramientas de software para conseguir estos objetivos son el p
 Paquete de configuración de red integral, que reemplaza a utilitarios como \texttt{ifconfig}, \texttt{route}, \texttt{netstat}. Permite configurar interfaces, información de ARP, ruteo por políticas, túneles, etc. Consiste de dos comandos: \texttt{ip}, que controla estado de interfaces y configuración de IPv4 e IPv6, y \texttt{tc}, que administra aspectos de calidad de servicio (\textit{Quality of Service}, QoS). Ejemplos en Cuadro \ref{tab:iproute2}.
 
 \subsection{Comando iptables}
-Es la interfaz de usuario al subsistema Netfilter del kernel, que permite modificar la forma como los paquetes IP atraviesan el kernel en su tránsito entre una interfaz de entrada, procesos locales, e interfaz de salida. Según el caso de cada paquete, aplica una serie de reglas impuestas por el usuario y agrupadas en diferentes \textbf{cadenas} (\texttt{PREROUTING, INPUT, OUTPUT, POSTROUTING, FORWARD}). Las reglas se almacenan en \textbf{tablas} que se aplican secuencialmente dentro de cada cadena. Las cadenas se disponen en diferentes lugares del recorrido del paquete por el kernel, y el usuario puede crear las suyas propias. 
+Es la interfaz de usuario al subsistema Netfilter\footnote{\url{https://es.wikipedia.org/wiki/Netfilter/iptables}} del kernel Linux, que permite modificar la forma como los paquetes IP atraviesan el kernel en su tránsito entre una interfaz de entrada, procesos locales, e interfaz de salida. 
 
-Cada tabla tiene una aplicación específica:
+Según el caso, a cada paquete pueden aplicársele las reglas configuradas por el usuario y agrupadas en diferentes \textbf{cadenas} (\texttt{PREROUTING, INPUT, OUTPUT, POSTROUTING, FORWARD}). Las reglas se almacenan en \textbf{tablas} que se aplican secuencialmente dentro de cada cadena. Las cadenas se disponen en diferentes lugares del recorrido del paquete por el kernel, y el usuario puede crear las suyas propias. 
+
+
+Las cadenas, entonces, se corresponden con el tipo de paquete según el tránsito que haga a través del host. Las tablas, con el tipo de acción que se desea aplicar. Cada tabla tiene una aplicación específica:
 
 \begin{description}
 	\item[Tabla \texttt{filter}] Aplica reglas de filtrado para implementar políticas de firewalling. Es la tabla por defecto.

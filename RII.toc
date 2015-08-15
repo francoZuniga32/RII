@@ -55,21 +55,21 @@
 \contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{34}{section*.37}
 \contentsline {subsubsection}{Laboratorio virtual de Split Access}{34}{section*.38}
 \contentsline {subsubsection}{Notas del Laboratorio}{35}{section*.39}
-\contentsline {part}{V\hspace {1em}Anexos}{36}{part.5}
-\contentsline {section}{\numberline {A}VLANs en Linux}{36}{appendix.Alph1}
-\contentsline {subsection}{Creaci\IeC {\'o}n de VLAN}{36}{section*.40}
-\contentsline {subsection}{Consultar el VLAN ID de una interfaz}{36}{section*.41}
-\contentsline {subsection}{Dar una direcci\IeC {\'o}n IP}{36}{section*.42}
-\contentsline {subsection}{Desactivar administrativamente una interfaz}{36}{section*.43}
-\contentsline {subsection}{Eliminar una interfaz}{36}{section*.44}
-\contentsline {section}{\numberline {B}Bridging en Linux}{36}{appendix.Alph2}
-\contentsline {subsection}{Interfaz para creaci\IeC {\'o}n e inspecci\IeC {\'o}n de bridges}{36}{section*.45}
-\contentsline {subsection}{Configuraci\IeC {\'o}n est\IeC {\'a}tica de bridges}{37}{section*.46}
-\contentsline {subsubsection}{Configuraci\IeC {\'o}n en RedHat, CentOS, derivados}{37}{section*.47}
-\contentsline {subsubsection}{Configuraci\IeC {\'o}n en Debian, Ubuntu, derivados}{37}{section*.48}
-\contentsline {section}{\numberline {C}Ejemplos de configuraci\IeC {\'o}n OpenVPN}{37}{appendix.Alph3}
-\contentsline {subsection}{Servidor}{37}{section*.49}
-\contentsline {subsection}{Cliente}{43}{section*.50}
-\contentsline {section}{\numberline {D}Scripts para OpenVPN en modo bridge}{45}{appendix.Alph4}
-\contentsline {subsection}{Archivo sample-scripts/bridge-start}{45}{section*.51}
-\contentsline {subsection}{Archivo sample-scripts/bridge-stop}{46}{section*.52}
+\contentsline {part}{V\hspace {1em}Anexos}{37}{part.5}
+\contentsline {section}{\numberline {A}VLANs en Linux}{37}{appendix.Alph1}
+\contentsline {subsection}{Creaci\IeC {\'o}n de VLAN}{37}{section*.40}
+\contentsline {subsection}{Consultar el VLAN ID de una interfaz}{37}{section*.41}
+\contentsline {subsection}{Dar una direcci\IeC {\'o}n IP}{37}{section*.42}
+\contentsline {subsection}{Desactivar administrativamente una interfaz}{37}{section*.43}
+\contentsline {subsection}{Eliminar una interfaz}{37}{section*.44}
+\contentsline {section}{\numberline {B}Bridging en Linux}{37}{appendix.Alph2}
+\contentsline {subsection}{Interfaz para creaci\IeC {\'o}n e inspecci\IeC {\'o}n de bridges}{37}{section*.45}
+\contentsline {subsection}{Configuraci\IeC {\'o}n est\IeC {\'a}tica de bridges}{38}{section*.46}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en RedHat, CentOS, derivados}{38}{section*.47}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en Debian, Ubuntu, derivados}{38}{section*.48}
+\contentsline {section}{\numberline {C}Ejemplos de configuraci\IeC {\'o}n OpenVPN}{38}{appendix.Alph3}
+\contentsline {subsection}{Servidor}{38}{section*.49}
+\contentsline {subsection}{Cliente}{44}{section*.50}
+\contentsline {section}{\numberline {D}Scripts para OpenVPN en modo bridge}{46}{appendix.Alph4}
+\contentsline {subsection}{Archivo sample-scripts/bridge-start}{46}{section*.51}
+\contentsline {subsection}{Archivo sample-scripts/bridge-stop}{47}{section*.52}
