@@ -1,0 +1,66 @@
+\input {RII-header}
+\hypersetup{colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=blue, urlcolor=blue, 
+	pdftitle={Redes II}, 
+	pdfauthor={Eduardo Grosclaude}, 
+	pdfsubject={Documento de la materia Redes II}, 
+	pdfkeywords={Redes, Switching, Alta Disponibilidad, Tecnicatura en Administración de Sistemas y Software Libre, Universidad Nacional del Comahue}}
+
+%TODO Incorporar load balance en LAN con modulo nth de iptables
+
+% --------------------------------------------------------------------
+\begin{document}\sloppy
+%\input{RII-Portada} :(
+\maketitle
+
+\borrador
+
+\abstract {En este escrito se presenta la descripción y material inicial de la asignatura \textbf{Redes II}, para la carrera de Tecnicatura Universitaria en Administración de Sistemas y Software Libre, de la Universidad Nacional del Comahue. 
+
+La materia es electiva, cuatrimestral en modalidad presencial y las clases son de carácter teórico-práctico, desarrolladas en forma colaborativa. Está preparada con los objetivos generales de  \textbf{actualizar y ampliar el instrumental de trabajo en ambientes de redes}. 
+  
+
+
+\newpage
+\emph{" "}
+\newpage
+
+\tableofcontents
+
+\newpage
+\emph{" "}
+
+%----------- P R E S E N T A C I O N  ---------
+\newpage
+\part {La asignatura}
+
+\input {RII-asignatura}
+%\input {RII-eval}
+\input {RII-cronog}
+
+%----------- M A T E R I A L ---------
+\newpage
+\part {Switching}
+\input {RII-Switching}
+\input {RII-VLAN}
+\input {RII-EstudioDeCasoI}
+
+\newpage
+\part {Redes Privadas Virtuales}
+\input {RII-VPN}
+
+\newpage
+\part {Balance de carga  y Alta Disponibilidad  en redes}
+\input {RII-LB-HA}
+\input {Split-access}
+
+
+
+
+%----------- A N E X O S ---------
+\newpage
+\part {Anexos}
+\appendix
+\input {RII-Anexos}
+%------------------------------------------------------------
+
+\end{document}

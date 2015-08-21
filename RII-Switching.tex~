@@ -64,7 +64,6 @@
 \item En aquellos switches con ports de diferentes velocidades, ¿cuáles podrían ser los usos de los ports de mayor velocidad?
 \item ¿Qué son los dispositivos de red administrables? ¿En qué consiste el protocolo SNMP? ¿Qué características operativas de un switch administrable pueden consultarse o modificarse mediante SNMP? 
 \item ¿Qué características administrables de un switch tienen que ver con la gestión de seguridad en redes?
-\item ¿Qué formas de ataque a un switch se conocen? ¿Qué ocurre si el atacante logra inyectar direcciones MAC arbitrarias en un port del switch? ¿Qué ocurre si el atacante logra emitir una cantidad muy grande de frames con diferentes direcciones MAC origen por uno o más ports del switch? ¿Cómo pueden evtarse estos ataques? 
 \end{enumerate}
 % subsection  (end) Switches
 \figura[8]{velocidades}{Competencia por el medio}{velocidades.jpg}
@@ -87,3 +86,4 @@
 \item ¿En qué consiste el protocolo RSTP?
 \end{enumerate}
 % subsubsection  (end) Arquitecturas de redundancia
+
