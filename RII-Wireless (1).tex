@@ -1,0 +1,27 @@
+\section {Wireless}
+
+\subsection {Tuning}
+
+\parindent=0pt
+\hrulefill
+\begin{tabular}{   p{\dimexpr 0.18\linewidth-2\tabcolsep} |
+                   p{\dimexpr 0.28\linewidth-2\tabcolsep} |
+                   p{\dimexpr 0.28\linewidth-2\tabcolsep} |
+                   p{\dimexpr 0.28\linewidth-2\tabcolsep}  }
+
+Parámetro 	& Significado  & Cuando se disminuye & Cuando se aumenta \\
+\hline
+\texttt{Beacon Interval}&Tiempo entre transmisión de beacons&Los scans pasivos se completan antes, y las estaciones se mueven más rápido sin perder conectividad
+& Aumentan la capacidad de radio, el throughput y la vida de las baterías\\
+\hline
+\texttt{Fragmentation Threshold}&Los frames más largos que el FT se transmiten usando el procedimiento de fragmentación&En zonas con ruido, la interferencia solamente corrompe los fragmentos, aumentando el throughput&En zonas sin ruido, aumenta el throughput al reducirse la fragmentación \\
+\hline
+\texttt{RTS Threshold}&A los frames más largos que el RTS Threshold se les antepone el intercambio RTS/CTS&Mejor throughput donde hay muchas situaciones de nodos ocultos&Mejor throughput si no hay interferencia\\
+\hline
+\texttt{Listen Interval}&Las estaciones que entran en ahorro de energía despiertan al transcurrir esta cantidad de intervalos entre beacons del AP&Los frames unicast hacia la estación tienen menor latencia y la carga en memoria de los AP se ve reducida&El transceiver queda apagado más tiempo y así se conservan más tiempo las baterías de las estaciones móviles\\
+\hline
+\texttt{Long Retry Limit}&Cantidad de intentos de retransmisión para frames más largos que el RTS Threshold&Los frames se descartan más rápidamente y el espacio de memoria requerido es menor&La retransmisión lleva más tiempo y puede causar que el TCP disminuya la tasa de transferencia \\
+\hline
+\texttt{Short Retry Limit}&Cantidad de intentos de retransmisión para frames más cortos que el RTS Threshold&Lo mismo que para Long Retry Limit&Lo mismo que para Long Retry Limit \\
+\hline
+\end{tabular}

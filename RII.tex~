@@ -42,6 +42,7 @@ La materia es electiva, cuatrimestral en modalidad presencial y las clases son d
 \part {Switching}
 \input {RII-Switching}
 \input {RII-VLAN}
+\input {RII-Wireless}
 \input {RII-EstudioDeCasoI}
 
 \newpage

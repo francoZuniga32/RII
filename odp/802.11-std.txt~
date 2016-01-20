@@ -1,0 +1,7 @@
+Estándar 802.11&Frecuencia&Velocidad máxima&Throughput típico&Alcance interior&Alcance exterior\\
+\hrule
+a& 5 GHz& 54 Mbps& 23 Mbps& 35 m& 120 m\\
+b& 2.4 GHz& 11 Mbps& 4.3 Mbps& 35 m& 140 m\\
+g& 2.4 GHz& 54 Mbps& 19 Mbps& 38 m& 140 m\\
+n& 2.4 GHz& 72 Mbps& 74 Mbps& 70 m& 250 m\\
+n& 5 GHz& 135 Mbps& 74 Mbps& 70 m& 250 m\\

@@ -1,0 +1,91 @@
+\BOOKMARK [0][-]{part.1}{I La asignatura}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Objetivos}{part.1}% 2
+\BOOKMARK [2][-]{section*.2}{De la carrera}{section.1.1}% 3
+\BOOKMARK [2][-]{section*.3}{De la asignatura}{section.1.1}% 4
+\BOOKMARK [1][-]{section.1.2}{Cursado}{part.1}% 5
+\BOOKMARK [1][-]{section.1.3}{Contenidos}{part.1}% 6
+\BOOKMARK [2][-]{section*.4}{Contenidos m\355nimos}{section.1.3}% 7
+\BOOKMARK [2][-]{section*.5}{Programa}{section.1.3}% 8
+\BOOKMARK [1][-]{section.1.4}{Bibliograf\355a inicial}{part.1}% 9
+\BOOKMARK [1][-]{section.1.5}{Cronograma}{part.1}% 10
+\BOOKMARK [0][-]{part.2}{II Switching}{}% 11
+\BOOKMARK [1][-]{section.2.1}{Ethernet}{part.2}% 12
+\BOOKMARK [2][-]{section*.6}{Dominios de colisi\363n y de broadcast}{section.2.1}% 13
+\BOOKMARK [2][-]{section*.7}{Switches}{section.2.1}% 14
+\BOOKMARK [2][-]{section*.8}{Arquitecturas de redundancia}{section.2.1}% 15
+\BOOKMARK [1][-]{section.2.2}{VLANs}{part.2}% 16
+\BOOKMARK [1][-]{section.2.3}{Redes Inal\341mbricas}{part.2}% 17
+\BOOKMARK [2][-]{section*.9}{Espectro electromagn\351tico}{section.2.3}% 18
+\BOOKMARK [2][-]{section*.10}{Modos de funcionamiento de las interfaces WLAN}{section.2.3}% 19
+\BOOKMARK [2][-]{section*.11}{Terminolog\355a IEEE 802.11}{section.2.3}% 20
+\BOOKMARK [2][-]{section*.12}{Tipos de tramas}{section.2.3}% 21
+\BOOKMARK [3][-]{section*.13}{Tramas de administraci\363n}{section*.12}% 22
+\BOOKMARK [3][-]{section*.14}{Tramas de control}{section*.12}% 23
+\BOOKMARK [3][-]{section*.15}{Tramas de datos}{section*.12}% 24
+\BOOKMARK [2][-]{section*.16}{Operaci\363n de 802.11}{section.2.3}% 25
+\BOOKMARK [3][-]{section*.17}{Ancho de banda compartido}{section*.16}% 26
+\BOOKMARK [3][-]{section*.18}{Direccionamiento}{section*.16}% 27
+\BOOKMARK [3][-]{section*.19}{Codificaci\363n}{section*.16}% 28
+\BOOKMARK [3][-]{section*.20}{Canales}{section*.16}% 29
+\BOOKMARK [3][-]{section*.21}{Extensi\363n del BSS}{section*.16}% 30
+\BOOKMARK [3][-]{section*.22}{Tuning}{section*.16}% 31
+\BOOKMARK [1][-]{section.2.4}{Estudio de caso I}{part.2}% 32
+\BOOKMARK [0][-]{part.3}{III Redes Privadas Virtuales}{}% 33
+\BOOKMARK [1][-]{section.3.1}{Elementos de las VPN}{part.3}% 34
+\BOOKMARK [2][-]{section*.23}{Motivaci\363n de las VPN}{section.3.1}% 35
+\BOOKMARK [2][-]{section*.24}{Modelos de VPN}{section.3.1}% 36
+\BOOKMARK [2][-]{section*.25}{Niveles de implementaci\363n}{section.3.1}% 37
+\BOOKMARK [2][-]{section*.26}{Algunas tecnolog\355as}{section.3.1}% 38
+\BOOKMARK [1][-]{section.3.2}{OpenVPN}{part.3}% 39
+\BOOKMARK [2][-]{section*.27}{Soporte necesario para OpenVPN}{section.3.2}% 40
+\BOOKMARK [2][-]{section*.28}{Funcionamiento de OpenVPN en capa 2}{section.3.2}% 41
+\BOOKMARK [2][-]{section*.29}{Funcionamiento de OpenVPN en capa 3}{section.3.2}% 42
+\BOOKMARK [1][-]{section.3.3}{Configuraci\363n de OpenVPN}{part.3}% 43
+\BOOKMARK [2][-]{section*.30}{Autenticaci\363n mediante clave privada}{section.3.3}% 44
+\BOOKMARK [2][-]{section*.31}{Crear una Autoridad de Certificaci\363n}{section.3.3}% 45
+\BOOKMARK [2][-]{section*.32}{Documentaci\363n online}{section.3.3}% 46
+\BOOKMARK [2][-]{section*.33}{Vinculaci\363n de LANs mediante Openvpn}{section.3.3}% 47
+\BOOKMARK [3][-]{section*.34}{OpenVPN de nivel de Red}{section*.33}% 48
+\BOOKMARK [3][-]{section*.35}{OpenVPN de nivel de Enlace}{section*.33}% 49
+\BOOKMARK [1][-]{section.3.4}{Temas de pr\341ctica}{part.3}% 50
+\BOOKMARK [0][-]{part.4}{IV Balance de carga y Alta Disponibilidad en redes}{}% 51
+\BOOKMARK [1][-]{section.4.1}{Bonding}{part.4}% 52
+\BOOKMARK [2][-]{section*.36}{Detecci\363n de eventos}{section.4.1}% 53
+\BOOKMARK [2][-]{section*.37}{Configuraci\363n en Debian}{section.4.1}% 54
+\BOOKMARK [3][-]{section*.38}{Configuraci\363n con MII}{section*.37}% 55
+\BOOKMARK [3][-]{section*.39}{Configuraci\363n con ARP}{section*.37}% 56
+\BOOKMARK [2][-]{section*.40}{Temas de pr\341ctica}{section.4.1}% 57
+\BOOKMARK [3][-]{section*.41}{Notas sobre el laboratorio}{section*.40}% 58
+\BOOKMARK [2][-]{section*.42}{Referencias}{section.4.1}% 59
+\BOOKMARK [1][-]{section.4.2}{Ruteo por pol\355ticas}{part.4}% 60
+\BOOKMARK [2][-]{section*.43}{Ruteo}{section.4.2}% 61
+\BOOKMARK [2][-]{section*.44}{Acceso dividido}{section.4.2}% 62
+\BOOKMARK [2][-]{section*.45}{Paquete iproute2}{section.4.2}% 63
+\BOOKMARK [2][-]{section*.46}{Comando iptables}{section.4.2}% 64
+\BOOKMARK [2][-]{section*.47}{Ruteo por pol\355ticas}{section.4.2}% 65
+\BOOKMARK [3][-]{section*.48}{Creaci\363n de tablas de ruteo}{section*.47}% 66
+\BOOKMARK [2][-]{section*.49}{Definici\363n de pol\355ticas}{section.4.2}% 67
+\BOOKMARK [3][-]{section*.50}{1. Pol\355tica seg\372n el origen}{section*.49}% 68
+\BOOKMARK [3][-]{section*.51}{2. Pol\355tica seg\372n la clase de tr\341fico}{section*.49}% 69
+\BOOKMARK [3][-]{section*.52}{3. Pol\355tica de balance de carga}{section*.49}% 70
+\BOOKMARK [2][-]{section*.53}{Temas de pr\341ctica}{section.4.2}% 71
+\BOOKMARK [3][-]{section*.54}{Laboratorio virtual de Split Access}{section*.53}% 72
+\BOOKMARK [3][-]{section*.55}{Notas del Laboratorio}{section*.53}% 73
+\BOOKMARK [0][-]{part.5}{V Anexos}{}% 74
+\BOOKMARK [1][-]{appendix.Alph1}{VLANs en Linux}{part.5}% 75
+\BOOKMARK [2][-]{section*.56}{Creaci\363n de VLAN}{appendix.Alph1}% 76
+\BOOKMARK [2][-]{section*.57}{Consultar el VLAN ID de una interfaz}{appendix.Alph1}% 77
+\BOOKMARK [2][-]{section*.58}{Dar una direcci\363n IP}{appendix.Alph1}% 78
+\BOOKMARK [2][-]{section*.59}{Desactivar administrativamente una interfaz}{appendix.Alph1}% 79
+\BOOKMARK [2][-]{section*.60}{Eliminar una interfaz}{appendix.Alph1}% 80
+\BOOKMARK [1][-]{appendix.Alph2}{Bridging en Linux}{part.5}% 81
+\BOOKMARK [2][-]{section*.61}{Interfaz para creaci\363n e inspecci\363n de bridges}{appendix.Alph2}% 82
+\BOOKMARK [2][-]{section*.62}{Configuraci\363n est\341tica de bridges}{appendix.Alph2}% 83
+\BOOKMARK [3][-]{section*.63}{Configuraci\363n en RedHat, CentOS, derivados}{section*.62}% 84
+\BOOKMARK [3][-]{section*.64}{Configuraci\363n en Debian, Ubuntu, derivados}{section*.62}% 85
+\BOOKMARK [1][-]{appendix.Alph3}{Ejemplos de configuraci\363n OpenVPN}{part.5}% 86
+\BOOKMARK [2][-]{section*.65}{Servidor}{appendix.Alph3}% 87
+\BOOKMARK [2][-]{section*.66}{Cliente}{appendix.Alph3}% 88
+\BOOKMARK [1][-]{appendix.Alph4}{Scripts para OpenVPN en modo bridge}{part.5}% 89
+\BOOKMARK [2][-]{section*.67}{Archivo sample-scripts/bridge-start}{appendix.Alph4}% 90
+\BOOKMARK [2][-]{section*.68}{Archivo sample-scripts/bridge-stop}{appendix.Alph4}% 91

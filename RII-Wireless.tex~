@@ -1,0 +1,136 @@
+\section {Redes Inalámbricas}
+
+
+Las redes inalámbricas, o \textit{wireless}, utilizan interfaces especiales, como las de radio o de rayos infrarrojos, para emitir tramas o frames en forma similar a las interfaces Ethernet que ya conocemos. Las redes wireless basadas en tecnologías de radio comprenden los vínculos satelitales, los vínculos terrestres de microondas, las redes de telefonía celular, y una familia especial de tecnologías de redes locales, a veces llamada \textbf{wireless LAN o WLAN}. Esta última familia de tecnologías, estandarizada por el grupo de trabajo  \textbf{802.11} de IEEE, permite relacionar entre sí, e incorporar a una LAN cableada, \textbf{dispositivos móviles} como notebooks, tablets, smartphones, u otros.
+
+ La transmisión de datos por medios inalámbricos se enfrenta a problemas físicos muy diferentes de los de la transmisión por cables de cobre o de fibra óptica, como los que conforman las redes cableadas. La distancia entre las interfaces de radio, los obstáculos intermedios (que absorben o reflejan la radiación), las fuentes de ruido electromagnético situadas entre las interfaces, las interferencias entre las redes, son todos factores que tienden a limitar rápidamente las prestaciones de las redes WLAN. Las tasas de transferencia efectivas en una red wireless, y las áreas de cobertura, serán, al menos con las tecnologías y las normas WLAN actuales, mucho menores que las de una red Ethernet. Por esto, las normas de ingeniería usualmente aplicadas consideran a las redes WLAN como una forma complementaria de acceso a las redes cableadas, y no como un reemplazo de éstas.
+
+Como consecuencia de estas dificultades físicas, el diseño y la forma de operación de las interfaces WLAN son sumamente complicados. El hecho de que los dispositivos que se desea conectar, generalmente, son móviles, aumenta la complejidad del problema. Si bien la mayor parte de esta complejidad queda oculta al usuario, conocerla con un poco de detalle nos permite mejorar las prestaciones de una red inalámbrica que vayamos a diseñar, instalar o mantener. 
+
+\subsection {Espectro electromagnético}
+Las ondas de radio son esencialmente emisiones de energía que viajan por un medio compartido (el espacio). Una onda (en particular, de radio) es un fenómeno físico que queda descripto matemáticamente por su frecuencia y su amplitud. La amplitud de la onda corresponde al nivel de energía transportada por la onda en cada punto de su trayecto, y su frecuencia corresponde a la cantidad de veces por segundo que la amplitud desarrolla su ciclo (partiendo de un nivel central o 0, creciendo hasta un máximo positivo, decreciendo hasta un mínimo, y volviendo al 0). La frecuencia se mide en \textbf{Hz} (equivalente a 1/s).  Por ejemplo, un ciclo que se repite un millón de veces por segundo tiene una frecuencia de 1MHz. Una señal de 2.4GHz tiene un ciclo que se completa 2.400.000.000 veces por segundo. 
+
+Se llama espectro electromagnético al conjunto de todas las posibles radiaciones, ordenadas por su frecuencia. Una señal compuesta por un conjunto de ondas de diferentes frecuencias (una \textbf{banda}) tiene un \textbf{ancho de banda}, que es la diferencia entre la frecuencia más alta y la más baja de las que la integran. Esta noción de ancho de banda es de naturaleza analógica, y, aunque están estrechamente relacionadas, no debe confundirse con la velocidad de transmisión de una interfaz, medida en bits, que suele llamarse \textbf{ancho de banda digital}. 
+
+Si a un receptor llegan en el mismo momento dos o más señales de radio en la misma frecuencia y con una energía aproximadamente similar, la energía aportada por cada una modifica a la otra (ambas emisiones se hacen recíprocamente \textbf{interferencia}). Dependiendo de las condiciones, esto puede hacer que la información que llevan esas señales quede irreconocible para el receptor que debe interpretarla. Por este motivo, para que las comunicaciones sean eficaces, el espectro debe ser administrado como un recurso limitado, asignando frecuencias a usuarios en cada lugar. Cada Estado dispone alguna regulación o legislación para el uso del espectro en su territorio. Por ejemplo, en cada país, ciertas bandas quedan reservadas para servicios públicos esenciales como seguridad o salud; algunas bandas pueden ser usadas por particulares pero requieren licencias pagas, como las usadas por la radio y la televisión abiertas; y otras, están exentas de licencia.  
+
+Diferentes tecnologías utilizan diferentes bandas del espectro, con sus respectivos anchos de banda. Para las tecnologías de WLAN se han utilizado principalmente las bandas, libres de licencia, alrededor de 2.4 GHz y de 5 GHz. Para cada nuevo desarrollo tecnológico aprobado por el grupo de trabajo correspondiente de IEEE, se han definido métodos de codificación, velocidades de transmisión máximas, alcance geográfico, etc. que son técnica y económicamente posibles dentro de esas bandas.  Así se ha llegado a la definición de una familia de estándares como indica el Cuadro \ref{tab:ieee80211}.
+ 
+ \tabla{ieee80211}{Estándares 802.11 y sus características}{|c|c|c|c|c|c|}{
+ \hline
+ Estándar 802.11&Frecuencia&Velocidad máxima&Throughput típico&Alcance interior&Alcance exterior\\
+ \hline
+ a& 5 GHz& 54 Mbps& 23 Mbps& 35 m& 120 m\\
+ b& 2.4 GHz& 11 Mbps& 4.3 Mbps& 35 m& 140 m\\
+ g& 2.4 GHz& 54 Mbps& 19 Mbps& 38 m& 140 m\\
+ n& 2.4 GHz& 72 Mbps& 74 Mbps& 70 m& 250 m\\
+ n& 5 GHz& 135 Mbps& 74 Mbps& 70 m& 250 m\\
+ \hline
+}
+ 
+
+
+%TODO http://www.extremetech.com/electronics/220355-next-generation-wi-fi-802-11ah-announced-with-almost-double-the-range-lower-power
+
+%TODO http://www.speedguide.net/faq/what-is-the-actual-real-life-speed-of-wireless-374
+
+
+\subsection{Modos de funcionamiento de las interfaces WLAN}
+El estándar 802.11 define siete modos de operación de las interfaces WLAN. De éstos, dos (\textbf{modo Master} y \textbf{modo infraestructura o managed mode}) son los más corrientes.
+
+\begin{description}
+    \item[Modo Master]
+    La interfaz en modo master funciona como punto de acceso (\textbf{Access Point, o AP}), y todo el tráfico entre las demás estaciones pasa a través de ella. 
+    \item[Modo Infraestructura o Managed]
+    Las interfaces en modo Managed se apoyan en la presencia de una interfaz en modo master (el AP), ante la cual deben registrarse (\textbf{asociarse}) para que el AP las tenga en cuenta.
+    \item[Modo Independiente o Ad Hoc]
+    Las interfaces se comunican directamente unas con otras sin necesidad de un punto de acceso, en forma \textbf{peer-to-peer}.
+    \item[Modo Trama o Mesh]
+    Las interfaces en modo Mesh encaminan y reenvían los frames de las demás en forma similar a un conjunto de switches.
+    \item[Modo Promiscuo]
+    La interfaz lee todo el tráfico, independientemente de que la dirección destino de los frames sea o no igual a su dirección MAC. 
+    \item[Modo Monitor]
+    La interfaz es capaz de examinar todo el tráfico, sin necesidad de estar asociada a un AP ni a una red Ad Hoc.
+    \item[Modo Repetidor o Repeater]
+\end{description}
+Las interfaces que se encuentran en modo Infraestructura únicamente pueden comunicarse con otra en modo Master; las que se encuentran en modo Ad Hoc, únicamente con otras interfaces en el mismo modo.
+
+
+\subsection{Terminología IEEE 802.11}
+Los elementos que componen las redes WiFi de tipo infraestructura (Fig. \ref{fig:infra}) tienen unos ciertos nombres precisos según los estándares de la familia 802.11.
+
+\figura{infra} {Red de tipo Infraestructura} {infrastructure-crop.pdf}
+
+\begin{description}
+    \item[Medio inalámbrico] Es el medio utilizado para la transmisión (en las redes WLAN, el espacio). 
+    \item[Estación (Station o STA)] Las estaciones son los hosts o dispositivos provistos de interfaces inalámbricas que forman parte de la red.
+    \item[Punto de acceso (Access Point o AP)] Es una estación cuya interfaz funciona en un modo especial, bajo el cual no transmite datos propios de la estación, sino que recibe y redistribuye los frames de las demás estaciones. El papel del AP en las redes WiFi es análogo al de un \textbf{hub} Ethernet.    
+    \item[Sistema de Distribución (Distribution System o DS)] Es la infraestructura de red cableada a la cual se pretende conectar la red WiFi. El AP posee una interfaz cableada, conectada al DS, y actúa como \textbf{bridge} entre la red WiFi y el DS.
+\end{description}
+
+
+\subsection{Tipos de tramas}
+Los diferentes tipos de \textbf{tramas} o \textbf{frames} 802.11 cumplen diferentes objetivos dentro del complejo funcionamiento de las redes WLAN. 
+\subsubsection{Tramas de administración}
+Estos frames se utilizan para iniciar o terminar conexiones a una red de infraestructura. 
+    \begin{itemize}
+        \item Los frames de \textbf{beacon} o \textbf{baliza} son emitidos periódicamente por el AP. Permiten a las estaciones saber qué redes se encuentran disponibles cerca, y con qué características, para poder elegir a cuál red se unirán.
+        \item Los frames de \textbf{Probe Request y Probe Response} tienen el mismo propósito, pero el descubrimiento de la red es iniciado por la estación.
+        \item Los frames de autenticación sirven a las estaciones que desean asociarse al AP como primer paso del procedimiento.
+        \item Los frames de asociación y des-asociación son emitidos por las estaciones para que el AP administre su pertenencia a la red.
+    \end{itemize}  
+
+\subsubsection{Tramas de control}
+    \begin{itemize}
+        \item Los frames recibidos por una estación son reconocidos con un frame de control especial de \textbf{ACK o Acknowledgement}. 
+        \item Los frames cuya longitud se encuentra por encima de un cierto valor corren mayor riesgo de colisiones, por lo cual para esos casos se utiliza el procedimiento de Evitación de Colisiones (\textbf{Collision Avoidance o CA}) basado en una solicitud de permiso para transmitir (frame de \textbf{Request To Send o RTS} y un otorgamiento de dicho permiso (frame de \textbf{Clear To Send o CTS}). RTS y CTS son tramas de control.
+    \end{itemize}  
+\subsubsection{Tramas de datos}
+    \begin{itemize}  
+        \item Las tramas de datos tienen un formato inspirado en el de los frames Ethernet, que llevan direcciones MAC origen y destino. Sin embargo, en las redes de tipo infraestructura una estación utiliza un AP para llegar a otra estación, la cual puede formar parte del área de cobertura inalámbrica o estar directamente conectada al sistema de distribución cableado, y debido a esta particular forma de operación, las tramas 802.11 llevan tres (y a veces cuatro) direcciones MAC. 
+    \end{itemize}
+
+\subsection{Operación de 802.11}
+
+\subsubsection{Ancho de banda compartido}
+Analogía con hubs Ethernet
+Atenuación
+\subsubsection{Direccionamiento}
+Mismas MAC que Eth
+\subsubsection{Codificación}
+Velocidades de transmisión variables
+\subsubsection{Canales}
+Interferencia y separación
+\figura{canales} {Canales estandarizados por 802.11 en la frecuencia de 2.4 GHz} {canales-crop.pdf}
+
+\subsubsection{Tuning}
+
+
+\begin{table}
+\scriptsize
+\parindent=0pt
+\hrulefill
+\begin{tabular}{   |p{\dimexpr 0.16\linewidth-2\tabcolsep} |
+                   p{\dimexpr 0.28\linewidth-2\tabcolsep} |
+                   p{\dimexpr 0.28\linewidth-2\tabcolsep} |
+                   p{\dimexpr 0.28\linewidth-2\tabcolsep} | }
+\hline
+Parámetro 	& Significado  & Cuando se disminuye & Cuando se aumenta \\
+\hline
+\texttt{Beacon Interval}&Tiempo entre transmisión de beacons&Los scans pasivos se completan antes, y las estaciones se mueven más rápido sin perder conectividad
+& Aumentan la capacidad de radio, el throughput y la vida de las baterías\\
+\hline
+\texttt{Fragmentation Threshold}&Los frames más largos que el FT se transmiten usando el procedimiento de fragmentación&En zonas con ruido, la interferencia solamente corrompe los fragmentos, aumentando el throughput&En zonas sin ruido, aumenta el throughput al reducirse la fragmentación \\
+\hline
+\texttt{RTS Threshold}&A los frames más largos que el RTS Threshold se les antepone el intercambio RTS/CTS&Mejor throughput donde hay muchas situaciones de nodos ocultos&Mejor throughput si no hay interferencia\\
+\hline
+\texttt{Listen Interval}&Las estaciones que entran en ahorro de energía despiertan al transcurrir esta cantidad de intervalos entre beacons del AP&Los frames unicast hacia la estación tienen menor latencia y la carga en memoria de los AP se ve reducida&El transceiver queda apagado más tiempo y así se conservan más tiempo las baterías de las estaciones móviles\\
+\hline
+\texttt{Long Retry Limit}&Cantidad de intentos de retransmisión para frames más largos que el RTS Threshold&Los frames se descartan más rápidamente y el espacio de memoria requerido es menor&La retransmisión lleva más tiempo y puede causar que el TCP disminuya la tasa de transferencia \\
+\hline
+\texttt{Short Retry Limit}&Cantidad de intentos de retransmisión para frames más cortos que el RTS Threshold&Lo mismo que para Long Retry Limit&Lo mismo que para Long Retry Limit \\
+\hline
+\end{tabular}
+\caption{Algunos parámetros configurables en interfaces 802.11}
+\label{tab:tuning}
+\end{table}

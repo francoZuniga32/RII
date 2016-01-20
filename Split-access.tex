@@ -1,20 +1,70 @@
-\section{Balance de Carga}
+\section{Ruteo por políticas}
 
 
-Consideraremos el problema de una organización con dos o más accesos a Internet a través de diferentes proveedores. Los enlaces extra se han contratado con la idea de seguir obteniendo acceso en caso de que uno de los proveedores falle (Fig. \ref{fig:split}). Sin embargo, resulta costoso diseñar una solución en modo \textit{activo-standby} (con sólo uno de los enlaces activo y sin aprovechar los demás), por lo cual se debe considerar alguna forma de distribución de tráfico por todos los enlaces. El ruteo default permite indicar solamente un camino de salida, de manera que se necesitará alguna técnica adicional para distribuir el tráfico. En general, cuando se necesita establecer alguna decisión administrativa sobre cómo se utilizan las rutas disponibles, se dice que estamos frente a una situación de ruteo por políticas. Una política es simplemente un conjunto de decisiones. 
+Consideremos el caso general de una organización con dos o más accesos a Internet a través de diferentes proveedores. 
+\begin{itemize}
+	\item Los enlaces extra pueden haberse contratado con la idea de seguir obteniendo acceso en caso de que uno de los proveedores falle (Fig. \ref{fig:split}). Es decir, el objetivo puede ser obtener \textbf{tolerancia a fallos}. 
+	\item También puede ser que la organización desee aumentar la capacidad de su vínculo con Internet, utilizando todos los enlaces. En este caso, el objetivo se definiría como lograr \textbf{balance de carga}. 
+\end{itemize}
 
+¿Cómo administrar los enlaces para satisfacer el requerimiento de tolerancia a fallos? Habrá que disponer de algún mecanismo para detectar fallos, cuando ocurran, y algún mecanismo para conmutar a un enlace que siga activo. Una posibilidad inmediata es funcionar en modo \textit{activo-standby} (con sólo uno de los enlaces activo y sin aprovechar los demás). Sin embargo, esta solución no resulta eficiente, ya que, la mayor parte del tiempo, se estará pagando por un recurso que no se utiliza. Lo ideal, entonces, será considerar alguna forma de distribución de tráfico por todos los enlaces disponibles. Es decir que, aunque se trate de objetivos diferentes, el de tolerancia a fallos lleva naturalmente al de balance de carga.
+
+Este objetivo combinado tiene ciertas restricciones. Diferentes proveedores tendrán asignadas direcciones de redes diferentes. Si quisiéramos emplear varios enlaces en forma agregada para una misma conexión TCP, los segmentos que salen de la organización hacia un mismo destino llegarían a ese destino con direcciones IP origen diferentes (aquellas que resulten del ruteo realizado por los diferentes proveedores), y no podrían ser reconocidos como parte de la misma conexión. 
+
+
+En consecuencia, por la naturaleza de los protocolos de transporte confiable de Internet, en general no será posible utilizar el total del ancho de banda agregado de todos los enlaces en una sola conexión\footnote{Aunque IETF desarrolla una versión \textit{Multipath} de TCP, por ahora en estado experimental (RFC 6824).}. 
+\begin{itemize}
+\item Es decir, si se tienen dos accesos de 1 Mbps cada uno, no es posible utilizar ambos enlaces agregados para efectuar una única transferencia de datos a 2 Mbps en una sola conexión. 
+\item En cambio, sí es posible distribuir la totalidad de la carga entre todos los vínculos, destinando una parte de las conexiones por cada enlace. 
+\end{itemize}
+
+\subsection{Ruteo}
+La estrategia de cuál enlace se utilizará en cada momento implica una decisión de ruteo. Como sabemos, el router toma decisiones paquete a paquete, observando la dirección destino y basándose en la información contenida en una tabla de ruteo. Esta tabla de ruteo contiene varias rutas, indicando:
+\begin{itemize}
+    \item Cuáles son las redes directamente conectadas, y a qué interfaz está conectada cada una. Esta información aparece en la tabla automáticamente al configurar las direcciones IP de las interfaces. 
+    \item Opcionalmente, otras redes no directamente conectadas, pero conocidas (o hosts conocidos), y la dirección IP del router al cual debe enviarse el tráfico con destino a esas redes (o hosts). La tabla de ruteo puede no contener ninguna de estas rutas específicas opcionales. 
+    \item A qué router debe enviarse el tráfico que no corresponda a redes directamente conectadas ni conocidas (ruta de \textit{default gateway} o ruta por defecto). Esta ruta técnicamente no es obligatoria, pero en la práctica es casi siempre indispensable.
+\end{itemize}
+
+Por ejemplo, una tabla de ruteo típica, esquematizada, podría contener rutas como las del Cuadro \ref{tab:ruteo}. Esta tabla de ruteo contiene cinco reglas que dicen:
+\begin{enumerate}
+\item La red 10.0.2.0/24 está directamente conectada a la interfaz eth0.
+\item La red 10.0.3.0/24 está directamente conectada a la interfaz eth1.
+\item El host 170.210.83.20 debe accederse a través del gateway 10.0.2.6.
+\item La red 10.0.4.0/24 debe accederse a través del gateway 10.0.3.8.
+\item Todo otro tráfico debe ser enviado al gateway default, 10.0.2.1, y desde allí será reenviado a su dirección destino.
+\end{enumerate}
+
+
+\tabla{ruteo}{Esquematización de una tabla de ruteo típica}{l|l|l|l}{
+\texttt{Destination}&\texttt{Gateway}&\texttt{Genmask}&\texttt{Iface} \\
+\texttt{10.0.2.0}&\texttt{0.0.0.0}&\texttt{255.255.255.0}&\texttt{eth0}\\
+\texttt{10.0.3.0}&\texttt{0.0.0.0}&\texttt{255.255.255.0}&\texttt{eth1} \\
+\texttt{170.210.83.20}&\texttt{10.0.2.6}&\texttt{255.255.255.255}&\texttt{eth0} \\
+\texttt{10.0.4.0}&\texttt{10.0.3.8}&\texttt{255.255.255.0}&\texttt{eth1}\\
+\texttt{0.0.0.0}&\texttt{10.0.2.1}&\texttt{0.0.0.0}&\texttt{eth0}\\
+}
+ 
+
+
+\subsection {Acceso dividido}
+El ruteo por defecto, es decir, el uso de un \textit{default gateway} como en el ejemplo anterior, permite indicar solamente \textbf{un} camino de salida, de manera que, para distribuir el tráfico entre dos o más enlaces, se necesitará alguna técnica que permita decidir por cuál enlace se dirigirá el tráfico en cada caso.
+
+
+En general, cuando se necesita establecer alguna decisión administrativa sobre cómo se utilizan las rutas disponibles, se dice que estamos frente a una situación de ruteo por políticas. Una política es simplemente un conjunto de decisiones. 
+
+Lo que necesitamos, es precisamente, herramientas para imponer ruteo por políticas.
 
 \figura[11]{split}{Escenario de acceso dividido}{split}
 
-Por la naturaleza de los protocolos de transporte de Internet, en general no será posible utilizar el total del ancho de banda agregado de todos los enlaces para una sola conexión, ya que segmentos TCP o UDP pertenecientes a la misma interacción con un servidor llegarán a destino provenientes de direcciones IP diferentes (aquellas que resulten del ruteo realizado por los diferentes proveedores). Este patrón de tráfico no puede formar parte de la misma conexión TCP o conversación UDP. Es decir, si se tienen dos accesos de 1Mbps cada uno, no es posible utilizar ambos enlaces agregados para efectuar una única transferencia de datos a 2Mbps en una sola conexión. En cambio, sí es posible distribuir la totalidad de la carga entre todos los vínculos, destinando parte de las conexiones por uno u otro enlace. 
-
-
-El escenario de múltiples accesos a Internet suele llamarse \textit{Split Access} (acceso dividido). Los dos problemas de Split Access son:
+El escenario de múltiples accesos a Internet suele llamarse \textit{Split Access} (acceso dividido). Los dos problemas del Acceso Dividido son:
 
 \begin{enumerate}
 	\item Hacer que el tráfico ingresado al sistema desde Internet por una interfaz vuelva por la misma interfaz.
-	\item Lograr distribución o balance de carga.
+	\item Lograr distribución del tráfico, o balance de carga.
 \end{enumerate}
+
+
 
 Las principales herramientas de software para conseguir estos objetivos son el paquete \texttt{iproute2} y el comando \texttt{iptables}. Con el primero definiremos una estructura de ruteo especial para el caso de uso de Split Access y con el segundo manipularemos el tráfico para aplicar diferentes políticas de ruteo.
 
@@ -67,13 +117,14 @@ Netfilter diferencia entre paquetes \textbf{destinados al host} (la dirección I
 \figura[11]{iptables-forward}{Recorrido de un paquete reenviado por el host}{iptables-forward.pdf}
 
 \subsection{Ruteo por políticas}
-Un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información de rutas contenida en una tabla de ruteo o reenvío. Habitualmente, la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. 
+Como hemos dicho, un host determina por cuál de sus interfaces debe emitir un paquete mediante el proceso de ruteo, usando la información de rutas contenida en una tabla de ruteo o reenvío. Habitualmente, la tabla utilizada para el ruteo regular es única (la tabla \texttt{main}), pero con la técnica de ruteo por políticas, se pueden utilizar diferentes tablas de ruteo. 
+
+Usando el comando \texttt{ip} es posible asociar una tabla de ruteo distinta con cada acceso en el escenario de Split Access. La decisión de qué tráfico utilizará cada tabla de ruteo se puede configurar en varias formas. Para definir qué paquetes usarán cada tabla de ruteo del sistema, se aplican reglas de selección de tablas. Estas reglas no aparecen en las tablas de ruteo sino que figuran en una tabla de reglas especial mantenida por el sistema iproute2.
+
+Ante cada paquete nuevo que llega, el proceso de ruteo buscará primero reglas para seleccionar una tabla de ruteo, y sólo si no las encuentra, aplicará las rutas en la tabla \texttt{main}. Cada tabla de ruteo puede tener una ruta default propia, lo que define por cuál de los accesos irá el tráfico saliente. En particular, una ruta default en una tabla específica tendrá prioridad sobre la ruta default habitual. 
 
 Una vez seleccionada una tabla de ruteo, el kernel utilizará las rutas en dicha tabla para determinar qué interfaz de salida le corresponde a un paquete. Para cada tabla de ruteo se aplica siempre el mecanismo clásico de examinar la dirección destino del paquete y localizar en esa tabla el prefijo coincidente más largo. 
 
-Ante cada paquete nuevo que llega, el proceso de ruteo buscará primero reglas para seleccionar una tabla de ruteo, y sólo si no las encuentra, aplicará las rutas en la tabla \texttt{main}. En particular, una ruta default en una tabla específica tendrá prioridad sobre la ruta default habitual. 
-
-Con el comando \texttt{ip} es posible asociar una tabla de ruteo distinta con cada acceso en el escenario de Split Access. La decisión de qué tráfico utilizará cada tabla de ruteo se puede configurar en varias formas. 
 
 \subsubsection{Creación de tablas de ruteo}
 El paquete \texttt{iproute2} identifica las tablas con números, pero es más cómodo para el administrador establecer unos nombres simbólicos en el archivo \texttt{/etc/iproute2/rt\_tables}. Simplemente se eligen números y nombres arbitrarios, que no colisionen con los ya reservados. Los nombres servirán posteriormente para referirse a las diferentes tablas de ruteo usando el comando \texttt{ip}, y pueden ser los nombres de los ISP o proveedores de acceso. Una vez creados los nombres simbólicos, por cada acceso a Internet disponible es necesario identificar los siguientes datos.

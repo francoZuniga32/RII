@@ -1,0 +1,92 @@
+\select@language {spanish}
+\contentsline {part}{I\hspace {1em}La asignatura}{7}{part.1}
+\contentsline {section}{\numberline {1}Objetivos}{7}{section.1.1}
+\contentsline {subsection}{De la carrera}{7}{section*.2}
+\contentsline {subsection}{De la asignatura}{7}{section*.3}
+\contentsline {section}{\numberline {2}Cursado}{7}{section.1.2}
+\contentsline {section}{\numberline {3}Contenidos}{7}{section.1.3}
+\contentsline {subsection}{Contenidos m\IeC {\'\i }nimos}{7}{section*.4}
+\contentsline {subsection}{Programa}{7}{section*.5}
+\contentsline {section}{\numberline {4}Bibliograf\IeC {\'\i }a inicial}{8}{section.1.4}
+\contentsline {section}{\numberline {5}Cronograma}{8}{section.1.5}
+\contentsline {part}{II\hspace {1em}Switching}{9}{part.2}
+\contentsline {section}{\numberline {1}Ethernet}{9}{section.2.1}
+\contentsline {subsection}{Dominios de colisi\IeC {\'o}n y de broadcast}{9}{section*.6}
+\contentsline {subsection}{Switches}{10}{section*.7}
+\contentsline {subsection}{Arquitecturas de redundancia}{11}{section*.8}
+\contentsline {section}{\numberline {2}VLANs}{13}{section.2.2}
+\contentsline {section}{\numberline {3}Redes Inal\IeC {\'a}mbricas}{14}{section.2.3}
+\contentsline {subsection}{Espectro electromagn\IeC {\'e}tico}{14}{section*.9}
+\contentsline {subsection}{Modos de funcionamiento de las interfaces WLAN}{15}{section*.10}
+\contentsline {subsection}{Terminolog\IeC {\'\i }a IEEE 802.11}{16}{section*.11}
+\contentsline {subsection}{Tipos de tramas}{16}{section*.12}
+\contentsline {subsubsection}{Tramas de administraci\IeC {\'o}n}{16}{section*.13}
+\contentsline {subsubsection}{Tramas de control}{17}{section*.14}
+\contentsline {subsubsection}{Tramas de datos}{17}{section*.15}
+\contentsline {subsection}{Operaci\IeC {\'o}n de 802.11}{17}{section*.16}
+\contentsline {subsubsection}{Ancho de banda compartido}{17}{section*.17}
+\contentsline {subsubsection}{Direccionamiento}{17}{section*.18}
+\contentsline {subsubsection}{Codificaci\IeC {\'o}n}{17}{section*.19}
+\contentsline {subsubsection}{Canales}{17}{section*.20}
+\contentsline {subsubsection}{Extensi\IeC {\'o}n del BSS}{17}{section*.21}
+\contentsline {subsubsection}{Tuning}{18}{section*.22}
+\contentsline {section}{\numberline {4}Estudio de caso I}{18}{section.2.4}
+\contentsline {part}{III\hspace {1em}Redes Privadas Virtuales}{20}{part.3}
+\contentsline {section}{\numberline {1}Elementos de las VPN}{20}{section.3.1}
+\contentsline {subsection}{Motivaci\IeC {\'o}n de las VPN}{20}{section*.23}
+\contentsline {subsection}{Modelos de VPN}{20}{section*.24}
+\contentsline {subsection}{Niveles de implementaci\IeC {\'o}n}{20}{section*.25}
+\contentsline {subsection}{Algunas tecnolog\IeC {\'\i }as}{20}{section*.26}
+\contentsline {section}{\numberline {2}OpenVPN}{22}{section.3.2}
+\contentsline {subsection}{Soporte necesario para OpenVPN}{22}{section*.27}
+\contentsline {subsection}{Funcionamiento de OpenVPN en capa 2}{22}{section*.28}
+\contentsline {subsection}{Funcionamiento de OpenVPN en capa 3}{23}{section*.29}
+\contentsline {section}{\numberline {3}Configuraci\IeC {\'o}n de OpenVPN}{23}{section.3.3}
+\contentsline {subsection}{Autenticaci\IeC {\'o}n mediante clave privada}{23}{section*.30}
+\contentsline {subsection}{Crear una Autoridad de Certificaci\IeC {\'o}n}{25}{section*.31}
+\contentsline {subsection}{Documentaci\IeC {\'o}n online}{25}{section*.32}
+\contentsline {subsection}{Vinculaci\IeC {\'o}n de LANs mediante Openvpn}{26}{section*.33}
+\contentsline {subsubsection}{OpenVPN de nivel de Red}{26}{section*.34}
+\contentsline {subsubsection}{OpenVPN de nivel de Enlace}{26}{section*.35}
+\contentsline {section}{\numberline {4}Temas de pr\IeC {\'a}ctica}{27}{section.3.4}
+\contentsline {part}{IV\hspace {1em}Balance de carga y Alta Disponibilidad en redes}{29}{part.4}
+\contentsline {section}{\numberline {1}Bonding}{29}{section.4.1}
+\contentsline {subsection}{Detecci\IeC {\'o}n de eventos}{29}{section*.36}
+\contentsline {subsection}{Configuraci\IeC {\'o}n en Debian}{30}{section*.37}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n con MII}{30}{section*.38}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n con ARP}{30}{section*.39}
+\contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{31}{section*.40}
+\contentsline {subsubsection}{Notas sobre el laboratorio}{32}{section*.41}
+\contentsline {subsection}{Referencias}{33}{section*.42}
+\contentsline {section}{\numberline {2}Ruteo por pol\IeC {\'\i }ticas}{33}{section.4.2}
+\contentsline {subsection}{Ruteo}{33}{section*.43}
+\contentsline {subsection}{Acceso dividido}{34}{section*.44}
+\contentsline {subsection}{Paquete iproute2}{34}{section*.45}
+\contentsline {subsection}{Comando iptables}{35}{section*.46}
+\contentsline {subsection}{Ruteo por pol\IeC {\'\i }ticas}{36}{section*.47}
+\contentsline {subsubsection}{Creaci\IeC {\'o}n de tablas de ruteo}{38}{section*.48}
+\contentsline {subsection}{Definici\IeC {\'o}n de pol\IeC {\'\i }ticas}{38}{section*.49}
+\contentsline {subsubsection}{1. Pol\IeC {\'\i }tica seg\IeC {\'u}n el origen}{38}{section*.50}
+\contentsline {subsubsection}{2. Pol\IeC {\'\i }tica seg\IeC {\'u}n la clase de tr\IeC {\'a}fico}{39}{section*.51}
+\contentsline {subsubsection}{3. Pol\IeC {\'\i }tica de balance de carga}{40}{section*.52}
+\contentsline {subsection}{Temas de pr\IeC {\'a}ctica}{40}{section*.53}
+\contentsline {subsubsection}{Laboratorio virtual de Split Access}{40}{section*.54}
+\contentsline {subsubsection}{Notas del Laboratorio}{41}{section*.55}
+\contentsline {part}{V\hspace {1em}Anexos}{43}{part.5}
+\contentsline {section}{\numberline {A}VLANs en Linux}{43}{appendix.Alph1}
+\contentsline {subsection}{Creaci\IeC {\'o}n de VLAN}{43}{section*.56}
+\contentsline {subsection}{Consultar el VLAN ID de una interfaz}{43}{section*.57}
+\contentsline {subsection}{Dar una direcci\IeC {\'o}n IP}{43}{section*.58}
+\contentsline {subsection}{Desactivar administrativamente una interfaz}{43}{section*.59}
+\contentsline {subsection}{Eliminar una interfaz}{43}{section*.60}
+\contentsline {section}{\numberline {B}Bridging en Linux}{43}{appendix.Alph2}
+\contentsline {subsection}{Interfaz para creaci\IeC {\'o}n e inspecci\IeC {\'o}n de bridges}{43}{section*.61}
+\contentsline {subsection}{Configuraci\IeC {\'o}n est\IeC {\'a}tica de bridges}{44}{section*.62}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en RedHat, CentOS, derivados}{44}{section*.63}
+\contentsline {subsubsection}{Configuraci\IeC {\'o}n en Debian, Ubuntu, derivados}{44}{section*.64}
+\contentsline {section}{\numberline {C}Ejemplos de configuraci\IeC {\'o}n OpenVPN}{44}{appendix.Alph3}
+\contentsline {subsection}{Servidor}{44}{section*.65}
+\contentsline {subsection}{Cliente}{50}{section*.66}
+\contentsline {section}{\numberline {D}Scripts para OpenVPN en modo bridge}{52}{appendix.Alph4}
+\contentsline {subsection}{Archivo sample-scripts/bridge-start}{52}{section*.67}
+\contentsline {subsection}{Archivo sample-scripts/bridge-stop}{53}{section*.68}
